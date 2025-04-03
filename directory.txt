@@ -1,0 +1,40 @@
+quiz-app/
+├── app.js                     
+├── routes/                    
+│   ├── index.js               # Home page routes
+│   ├── quiz.js                # Quiz routes
+│   ├── auth.js                # Authentication routes
+│   └── leaderboard.js         # Leaderboard routes
+├── controllers/               
+│   ├── quizController.js      
+│   ├── authController.js      
+│   └── leaderboardController.js
+├── middleware/               
+│   └── auth.js                # Auth checking middleware
+├── data/                      
+│   ├── questions.json         # Quiz questions
+│   ├── users.json             # Registered users (username, hashed password, etc.)
+│   └── leaderboard.json       # Leaderboard entries
+├── views/                     
+│   ├── partials/              
+│   │   ├── header.ejs          
+│   │   └── footer.ejs
+│   ├── index.ejs              
+│   ├── quiz.ejs               
+│   ├── results.ejs            
+│   ├── leaderboard.ejs        
+│   ├── login.ejs              
+│   └── register.ejs           
+├── public/                    
+│   ├── css/
+│   │   └── style.css           
+│   ├── js/
+│   │   ├── home.js
+│   │   ├── quiz.js
+│   │   ├── results.js
+│   │   └── leaderboard.js
+│   └── images/
+├── bin/                       
+│   └── www                    
+├── package.json               
+└── README.md
