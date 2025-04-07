@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const authMiddleware = require('../middleware/auth');
-
+// Coded by MST Rahi
 // Placeholder for authController - this will be implemented by Team Member 2
 // This is just a stub to make the app work initially
 const authController = {
