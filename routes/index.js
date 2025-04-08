@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-
+// Coded by MST Rahi
 /**
  * GET home page
  * Renders the main landing page
