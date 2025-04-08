@@ -3,45 +3,26 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title><%= title %></title>
+  <title><%= title || "Test Your Knowledge" %></title>
   <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-  <header>
-    <h1>Quiz App</h1>
-    <nav>
-      <ul>
-        <li><a href="/">Home</a></li>
-        <% if (locals.user) { %>
-          <li><a href="/quiz/start">Start Quiz</a></li>
-          <li><a href="/leaderboard">Leaderboard</a></li>
-          <li><a href="/auth/logout">Logout</a></li>
-        <% } else { %>
-          <li><a href="/auth/login">Login</a></li>
-          <li><a href="/auth/register">Register</a></li>
-        <% } %>
-      </ul>
-    </nav>
-  </header>
-  
-  <main>
-    <section class="hero">
-      <h2>Test Your Knowledge!</h2>
-      <p>Welcome to the Quiz App. Challenge yourself with our questions and see how you rank on the leaderboard.</p>
-      
-      <% if (locals.user) { %>
-        <a href="/quiz/start" class="btn btn-primary">Start Quiz</a>
-      <% } else { %>
-        <a href="/auth/login" class="btn btn-primary">Login to Start</a>
-        <a href="/auth/register" class="btn btn-secondary">Register</a>
-      <% } %>
-    </section>
-  </main>
-  
-  <footer>
-    <p>&copy; 2025 Quiz App</p>
-  </footer>
+  <%- include('partials/header') %>
 
-  <script src="/js/home.js"></script>
+  <div class="container">
+    <div id="home" class="flex-column flex-center">
+      <h1>Test Your Knowledge</h1>
+      <% if (user) { %>
+        <!-- If user is logged in, show the Play button -->
+        <a href="/quiz" class="btn">Play</a>
+      <% } else { %>
+        <!-- If user is not logged in, show Sign In and Register buttons -->
+        <a href="/auth/login" class="btn">Sign In</a>
+        <a href="/auth/register" class="btn">Register</a>
+      <% } %>
+    </div>
+  </div>
+
+  <%- include('partials/footer') %>
 </body>
 </html>

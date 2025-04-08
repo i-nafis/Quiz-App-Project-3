@@ -1,3 +1,11 @@
+// app.js
+// ---------------------------------------------
+// This is the main application file for the Quiz App.
+// It initializes the Express app, configures middleware,
+// sets up the view engine (EJS), loads quiz data,
+// and mounts the various route modules for the app.
+// ---------------------------------------------
+
 const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
@@ -5,19 +13,20 @@ const session = require('express-session');
 const logger = require('morgan');
 const fs = require('fs');
 
-// Import route modules
+// Import route modules.
 const indexRoutes = require('./routes/index');
 const quizRoutes = require('./routes/quiz');
 const authRoutes = require('./routes/auth');
 const leaderboardRoutes = require('./routes/leaderboard');
 
-// Import middleware
-const authMiddleware = require('./middleware/auth');
+// Import custom authentication middleware.
+const authMiddleware = require('./middleware/authMiddleware');
+console.log('authMiddleware:', authMiddleware); // Debug log: should show { requireAuth: [Function], redirectIfAuthenticated: [Function] }
 
-// Initialize Express app
+// Initialize Express app.
 const app = express();
 
-// Load questions once at startup
+// Load quiz questions at startup from the JSON file.
 let quizQuestions = [];
 try {
   const questionsData = fs.readFileSync(path.join(__dirname, 'data', 'questions.json'), 'utf8');
@@ -27,21 +36,22 @@ try {
   console.error('Error loading questions:', err);
 }
 
-// Make questions available application-wide
+// Make questions available to all templates via app.locals.
 app.locals.quizQuestions = quizQuestions;
 
-// View engine setup
+// Setup view engine to use EJS and set views directory.
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-// Middleware setup
+// Middleware setup.
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+// Serve static files from the 'public' folder.
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Session configuration
+// Session configuration.
 app.use(session({
   secret: 'quiz-app-secret-key',
   resave: false,
@@ -52,32 +62,39 @@ app.use(session({
   }
 }));
 
-// Make user data available to all templates
+// Make user data available in all views.
 app.use((req, res, next) => {
   res.locals.user = req.session.user || null;
   next();
 });
 
-// Routes
+// Route handling:
+// - The home page and authentication routes.
 app.use('/', indexRoutes);
 app.use('/auth', authRoutes);
-app.use('/quiz', authMiddleware.requireAuth, quizRoutes); // Protected route
+
+// - Protect quiz routes with authentication middleware and mount quiz routes.
+//   Note: The authentication middleware is applied before the quiz routes.
+app.use('/quiz', authMiddleware.requireAuth, quizRoutes);
+
+// - Mount leaderboard routes.
 app.use('/leaderboard', leaderboardRoutes);
 
-// 404 handler
+// 404 handler for undefined routes.
 app.use((req, res, next) => {
-  res.status(404).render('404', { title: 'Page Not Found' });
+  res.status(404).render('/error', { title: 'Page Not Found' });
 });
 
-// Error handler
+// Global error handler.
 app.use((err, req, res, next) => {
-  // Set locals, only providing error in development
+  // Set locals, providing error only in development environment.
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-  // Render the error page
+  
+  // Render the error page with status code or default to 500.
   res.status(err.status || 500);
   res.render('error', { title: 'Error' });
 });
 
+// Export the app module so it can be used by bin/www.
 module.exports = app;

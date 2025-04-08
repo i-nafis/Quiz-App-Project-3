@@ -1,21 +1,12 @@
 const express = require('express');
 const router = express.Router();
-// Coded by MST Rahi
-// Placeholder for leaderboardController - this will be implemented by Team Member 3
-// This is just a stub to make the app work initially
-const leaderboardController = {
-  getLeaderboard: (req, res) => {
-    res.render('leaderboard', { 
-      title: 'Leaderboard',
-      leaderboard: [] // Empty leaderboard for now
-    });
-  }
-};
 
-/**
- * GET /leaderboard
- * Display the leaderboard
- */
+// ✅ Import the actual controller from the file
+const leaderboardController = require('../controllers/leaderboardController');
+
+// GET /leaderboard
 router.get('/', leaderboardController.getLeaderboard);
 
+// Export the router
 module.exports = router;
+

@@ -1,0 +1,89 @@
+/* leaderboard.css - Clean and neon-dark styled */
+@import url('https://fonts.googleapis.com/css2?family=Nova+Square&display=swap');
+
+body {
+  background-color: #222;
+  font-family: 'Nova Square', sans-serif;
+  color: #bdffe4;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  max-width: 800px;
+  margin: 60px auto;
+  padding: 20px;
+  background-color: #2a2a2a;
+  border-radius: 10px;
+  box-shadow: 0 0 30px #1fc39744;
+}
+
+h1 {
+  text-align: center;
+  font-size: 3rem;
+  margin-bottom: 2rem;
+  color: #1fc397;
+}
+
+.leaderboard-table {
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 10px;
+  overflow: hidden;
+  background-color: #1f1f1f;
+  box-shadow: 0 0 10px #1fc39755;
+}
+
+.leaderboard-table th,
+.leaderboard-table td {
+  padding: 1.2rem;
+  text-align: center;
+  font-size: 1.4rem;
+  border-bottom: 1px solid #333;
+}
+
+.leaderboard-table th {
+  background-color: #1fc39722;
+  color: #1fc397;
+  font-size: 1.5rem;
+}
+
+.leaderboard-table tr:nth-child(even) {
+  background-color: #292929;
+}
+
+.leaderboard-table tr:hover {
+  background-color: #333;
+  transition: 0.3s ease-in-out;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.btn {
+  display: inline-block;
+  margin-top: 2rem;
+  padding: 12px 24px;
+  font-size: 1.4rem;
+  background-color: #1fc397;
+  color: #222;
+  border: none;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.btn:hover {
+  background-color: #17a17c;
+  cursor: pointer;
+}
+footer {
+    text-align: center;
+    padding: 10px 0;
+    font-size: 1.2rem;
+    color: #888;
+    background: transparent;
+    margin-top: 30px;
+  }
+  
