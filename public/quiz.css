@@ -5,9 +5,9 @@ body {
 
 .choice-container {
     display: flex;
-    margin-bottom: 0.8rem;
+    margin-bottom: 1rem;
     width: 100%;
-    border-radius: 4px;
+    border-radius: 50px;
     background: #1fc397;
     font-size: 3rem;
     min-width: 80rem;
@@ -39,7 +39,7 @@ body {
 }
 
 #question {
-    color: #bdffe4;
+    color: #f1f1f1;
 }
 
 #hud {

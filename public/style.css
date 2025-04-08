@@ -14,7 +14,7 @@
 
 h1 {
     font-size: 5.4rem;
-    color: #bdffe4;
+    color: #f1f1f1;
     margin-bottom: 5rem;
 }
 
@@ -65,11 +65,11 @@ h2 {
     padding: 2rem 0;
     width: 30rem;
     text-align: center;
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
     text-decoration: none;
     color: #bdffe4;
     background: #1fc397;
-    border-radius: 4px;
+    border-radius: 50px;
 }
 
 .btn:hover {
