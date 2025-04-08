@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title || "Quiz" %></title>
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/quiz.css">
+</head>
+<body>
+  <%- include('partials/header') %>
+
+  <div class="container">
+    <div id="game" class="justify-center flex-column">
+      
+      <!-- HUD for progress and score -->
+      <div id="hud">
+        <div class="hud-item">
+          <p id="progressText" class="hud-prefix">Question</p>
+          <div id="progressBar">
+            <div id="progressBarFull"></div>
+          </div>
+        </div>
+        <div class="hud-item">
+          <p class="hud-prefix">Score</p>
+          <h1 class="hud-main-text" id="score">0</h1>
+        </div>
+      </div>
+
+      <!-- Question placeholder -->
+      <h1 id="question">Loading...</h1>
+
+      <!-- Choices will be updated by JS -->
+      <div class="choice-container">
+        <p class="choice-prefix">A</p>
+        <p class="choice-text" id="choiceA" data-choice="A">Choice A</p>
+      </div>
+      <div class="choice-container">
+        <p class="choice-prefix">B</p>
+        <p class="choice-text" id="choiceB" data-choice="B">Choice B</p>
+      </div>
+      <div class="choice-container">
+        <p class="choice-prefix">C</p>
+        <p class="choice-text" id="choiceC" data-choice="C">Choice C</p>
+      </div>
+      <div class="choice-container">
+        <p class="choice-prefix">D</p>
+        <p class="choice-text" id="choiceD" data-choice="D">Choice D</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Inject quiz questions from backend -->
+  <script>
+    const quizData = <%- JSON.stringify(questions) %>;
+  </script>
+  <script src="/js/quiz.js"></script>
+  <%- include('partials/footer') %>
+</body>
+</html>

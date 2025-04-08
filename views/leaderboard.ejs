@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title><%= title || "Leaderboard" %></title>
+  <link rel="stylesheet" href="/css/leaderboard.css"/>
+</head>
+<body>
+  <%- include('partials/header') %>
+
+  <div class="container">
+    <h1 class="text-center">🏆 Leaderboard</h1>
+
+    <% if (entries && entries.length > 0) { %>
+      <table class="leaderboard-table">
+        <thead>
+          <tr>
+            <th>Rank</th>
+            <th>Username</th>
+            <th>Score</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% entries.forEach((entry, index) => { %>
+            <tr>
+              <td><%= index + 1 %></td>
+              <td><%= entry.username %></td>
+              <td><%= entry.score %></td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    <% } else { %>
+      <p class="text-center">No scores yet. Be the first to take the quiz!</p>
+    <% } %>
+    
+    <div class="text-center">
+      <a href="/" class="btn">Back to Home</a>
+    </div>
+  </div>
+
+  <%- include('partials/footer') %>
+</body>
+</html>

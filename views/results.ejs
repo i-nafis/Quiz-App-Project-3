@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title || "Leaderboard" %></title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <%- include('partials/header') %>
+
+  <div class="container">
+    <div class="leaderboard flex-column flex-center">
+      <h1>Leaderboard</h1>
+      <% if (leaderboard && leaderboard.length > 0) { %>
+        <table class="leaderboard-table">
+          <thead>
+            <tr>
+              <th>Rank</th>
+              <th>Username</th>
+              <th>Score</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% leaderboard.forEach(function(entry, index) { %>
+              <tr>
+                <td><%= index + 1 %></td>
+                <td><%= entry.username %></td>
+                <td><%= entry.score %></td>
+              </tr>
+            <% }); %>
+          </tbody>
+        </table>
+      <% } else { %>
+        <p>No leaderboard entries available yet.</p>
+      <% } %>
+      <a href="/" class="btn">Back to Home</a>
+    </div>
+  </div>
+
+  <%- include('partials/footer') %>
+</body>
+</html>

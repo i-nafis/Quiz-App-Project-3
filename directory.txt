@@ -10,7 +10,7 @@ quiz-app/
 │   ├── authController.js      
 │   └── leaderboardController.js
 ├── middleware/               
-│   └── auth.js                # Auth checking middleware
+│   └── authMiddleware.js                # Auth checking middleware
 ├── data/                      
 │   ├── questions.json         # Quiz questions
 │   ├── users.json             # Registered users (username, hashed password, etc.)
@@ -27,7 +27,7 @@ quiz-app/
 │   └── register.ejs           
 ├── public/                    
 │   ├── css/
-│   │   └── style.css           
+│   │   └── style.css,quiz.css,result.css
 │   ├── js/
 │   │   ├── home.js
 │   │   ├── quiz.js

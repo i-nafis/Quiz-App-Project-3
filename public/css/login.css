@@ -1,0 +1,81 @@
+/* login.css - styled to match dark quiz theme */
+@import url('https://fonts.googleapis.com/css2?family=Nova+Square&display=swap');
+
+body {
+  background-color: #222222;
+  font-family: 'Nova Square', sans-serif;
+  color: #bdffe4;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  max-width: 400px;
+  margin: 80px auto;
+  padding: 30px;
+  background-color: #2e2e2e;
+  border-radius: 10px;
+  box-shadow: 0 0 20px #1fc39788;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 25px;
+  font-size: 3rem;
+  color: #1fc397;
+}
+
+input {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border: none;
+  border-radius: 6px;
+  background-color: #444;
+  color: #fff;
+  font-size: 1.4rem;
+}
+
+input::placeholder {
+  color: #bbb;
+}
+
+.btn {
+  width: 100%;
+  padding: 12px;
+  background-color: #1fc397;
+  border: none;
+  color: #222;
+  border-radius: 6px;
+  font-size: 1.6rem;
+  cursor: pointer;
+  transition: 0.2s ease-in-out;
+}
+
+.btn:hover {
+  background-color: #17a17c;
+}
+
+.error-message {
+  background-color: #ff4c4c33;
+  color: #ff6666;
+  padding: 10px;
+  border-radius: 5px;
+  text-align: center;
+  margin-bottom: 15px;
+  font-size: 1.2rem;
+}
+
+p {
+  text-align: center;
+  font-size: 1.3rem;
+}
+
+a {
+  color: #1fc397;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
