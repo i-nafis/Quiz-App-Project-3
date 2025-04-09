@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title><%= title || "Quiz" %></title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css">
+  <link rel="stylesheet" href="/css/header.css">
   <link rel="stylesheet" href="/css/style.css">
   <link rel="stylesheet" href="/css/quiz.css">
 </head>
@@ -16,19 +18,23 @@
       <!-- HUD for progress and score -->
       <div id="hud">
         <div class="hud-item">
-          <p id="progressText" class="hud-prefix">Question</p>
+          <p id="progressText" class="hud-prefix">
+            <i class="fas fa-question-circle"></i> Question
+          </p>
           <div id="progressBar">
             <div id="progressBarFull"></div>
           </div>
         </div>
         <div class="hud-item">
-          <p class="hud-prefix">Score</p>
+          <p class="hud-prefix">
+             Score
+          </p>
           <h1 class="hud-main-text" id="score">0</h1>
         </div>
       </div>
 
       <!-- Question placeholder -->
-      <h1 id="question">Loading...</h1>
+      <h1 id="question">Loading question...</h1>
 
       <!-- Choices will be updated by JS -->
       <div class="choice-container">
@@ -46,7 +52,7 @@
       <div class="choice-container">
         <p class="choice-prefix">D</p>
         <p class="choice-text" id="choiceD" data-choice="D">Choice D</p>
-      </div>
+      </div>    
     </div>
   </div>
 
@@ -55,6 +61,11 @@
     const quizData = <%- JSON.stringify(questions) %>;
   </script>
   <script src="/js/quiz.js"></script>
-  <%- include('partials/footer') %>
+  <!-- Hidden form for submitting quiz results -->
+<form id="quizForm" action="/quiz/submit" method="POST" style="display: none;">
+  <% questions.forEach(function(question) { %>
+    <input type="hidden" name="answers[<%= question.id %>]" id="answer-<%= question.id %>" value="">
+  <% }); %>
+</form>
 </body>
 </html>

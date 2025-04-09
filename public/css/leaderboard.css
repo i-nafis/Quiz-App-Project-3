@@ -16,6 +16,7 @@ body {
   background-color: #2a2a2a;
   border-radius: 10px;
   box-shadow: 0 0 30px #1fc39744;
+  max-height: 700px;
 }
 
 h1 {
@@ -87,3 +88,40 @@ footer {
     margin-top: 30px;
   }
   
+  .highlight-user {
+    background-color: #1fc39733 !important;
+    font-weight: bold;
+  }
+  
+  .empty-state {
+    text-align: center;
+    padding: 50px 0;
+  }
+  
+  .empty-icon {
+    font-size: 4rem;
+    color: #1fc397;
+    margin-bottom: 1rem;
+    opacity: 0.5;
+  }
+  
+  .action-buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 2rem;
+  }
+  
+  .play-btn {
+    background: linear-gradient(90deg, #1fc397 0%, #27ae60 100%);
+    margin-bottom: 1rem;
+  }
+  
+  .play-btn:hover {
+    background: linear-gradient(90deg, #27ae60 0%, #1fc397 100%);
+  }
+  
+  .secondary-btn {
+    background-color: transparent;
+    border: 2px solid #1fc397;
+  }

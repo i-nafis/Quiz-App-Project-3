@@ -3,10 +3,11 @@
 <head>
   <title><%= title %></title>
   <link rel="stylesheet" href="/css/register.css">
+  <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
 <%- include('partials/header') %>
-<div class="container">
+<div class="reg-container">
   <h1>Register</h1>
   <% if (error) { %><div class="error-message"><%= error %></div><% } %>
   <form action="/auth/register" method="POST">
@@ -17,6 +18,5 @@
   </form>
   <p>Already have an account? <a href="/auth/login">Login</a></p>
 </div>
-<%- include('partials/footer') %>
 </body>
 </html>

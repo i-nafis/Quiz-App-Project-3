@@ -3,26 +3,64 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title><%= title || "Test Your Knowledge" %></title>
+  <meta name="description" content="QuizMaster - Test your knowledge with fun interactive quizzes">
+  <title><%= title || "QuizMaster - Test Your Knowledge" %></title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css">
   <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/header.css">
 </head>
 <body>
   <%- include('partials/header') %>
-
+  
   <div class="container">
     <div id="home" class="flex-column flex-center">
-      <h1>Test Your Knowledge</h1>
-      <% if (user) { %>
-        <!-- If user is logged in, show the Play button -->
-        <a href="/quiz" class="btn">Play</a>
-      <% } else { %>
-        <!-- If user is not logged in, show Sign In and Register buttons -->
-        <a href="/auth/login" class="btn">Sign In</a>
-        <a href="/auth/register" class="btn">Register</a>
-      <% } %>
+      <h1>QuizMaster</h1>
+      <p class="tagline">Challenge yourself with our knowledge quiz!</p>
+      
+      <div class="action-buttons">
+        <% if (user) { %>
+          <!-- If user is logged in, show the Play button -->
+          <a href="/quiz" class="btn play-btn">
+            <i class="fas fa-play-circle"></i> Start Quiz
+          </a>
+          <a href="/leaderboard" class="btn secondary-btn">
+            <i class="fas fa-trophy"></i> Leaderboard
+          </a>
+        <% } else { %>
+          <!-- If user is not logged in, show Sign In and Register buttons -->
+          <a href="/auth/login" class="btn login-btn">
+            <i class="fas fa-sign-in-alt"></i> Sign In
+          </a>
+          <a href="/auth/register" class="btn register-btn">
+            <i class="fas fa-user-plus"></i> Register
+          </a>
+          <a href="/leaderboard" class="btn secondary-btn">
+            <i class="fas fa-trophy"></i> View Leaderboard
+          </a>
+        <% } %>
+      </div>
+      
+      <div class="features">
+        <div class="feature">
+          <i class="fas fa-question-circle"></i>
+          <h3>Challenging Questions</h3>
+          <p>Test your knowledge with our curated quiz questions</p>
+        </div>
+        <div class="feature">
+          <i class="fas fa-stopwatch"></i>
+          <h3>Beat the Clock</h3>
+          <p>Race against time to improve your score</p>
+        </div>
+        <div class="feature">
+          <i class="fas fa-trophy"></i>
+          <h3>Compete & Win</h3>
+          <p>Earn your spot on our global leaderboard</p>
+        </div>
+      </div>
     </div>
   </div>
-
+  
   <%- include('partials/footer') %>
+  <script src="/js/home.js"></script>
 </body>
 </html>

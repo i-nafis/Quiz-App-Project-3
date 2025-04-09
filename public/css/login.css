@@ -9,9 +9,9 @@ body {
   padding: 0;
 }
 
-.container {
-  max-width: 400px;
-  margin: 80px auto;
+.log-container {
+  max-width: 600px;
+  margin: 250px auto;
   padding: 30px;
   background-color: #2e2e2e;
   border-radius: 10px;
@@ -43,10 +43,11 @@ input::placeholder {
 .btn {
   width: 100%;
   padding: 12px;
+  margin-left: 20px;
   background-color: #1fc397;
   border: none;
   color: #222;
-  border-radius: 6px;
+  border-radius: 2px;
   font-size: 1.6rem;
   cursor: pointer;
   transition: 0.2s ease-in-out;

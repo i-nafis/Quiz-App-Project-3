@@ -5,13 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title><%= title || "Leaderboard" %></title>
   <link rel="stylesheet" href="/css/leaderboard.css"/>
+  <link rel="stylesheet" href="/css/style.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"/>
 </head>
 <body>
   <%- include('partials/header') %>
-
   <div class="container">
-    <h1 class="text-center">🏆 Leaderboard</h1>
-
+    <h1 class="text-center"><i class="fas fa-trophy"></i> Leaderboard</h1>
+    
     <% if (entries && entries.length > 0) { %>
       <table class="leaderboard-table">
         <thead>
@@ -23,8 +24,18 @@
         </thead>
         <tbody>
           <% entries.forEach((entry, index) => { %>
-            <tr>
-              <td><%= index + 1 %></td>
+            <tr<% if (user && user.username === entry.username) { %> class="highlight-user"<% } %>>
+              <td>
+                <% if (index === 0) { %>
+                  <i class="fas fa-medal" style="color: gold;"></i>
+                <% } else if (index === 1) { %>
+                  <i class="fas fa-medal" style="color: silver;"></i>
+                <% } else if (index === 2) { %>
+                  <i class="fas fa-medal" style="color: #cd7f32;"></i>
+                <% } else { %>
+                  <%= index + 1 %>
+                <% } %>
+              </td>
               <td><%= entry.username %></td>
               <td><%= entry.score %></td>
             </tr>
@@ -32,14 +43,18 @@
         </tbody>
       </table>
     <% } else { %>
-      <p class="text-center">No scores yet. Be the first to take the quiz!</p>
+      <div class="empty-state">
+        <i class="fas fa-chart-bar empty-icon"></i>
+        <p class="text-center">No scores yet. Be the first to take the quiz!</p>
+      </div>
     <% } %>
     
-    <div class="text-center">
-      <a href="/" class="btn">Back to Home</a>
+    <div class="action-buttons">
+      <a href="/quiz" class="btn play-btn">
+        <i class="fas fa-play-circle"></i> Start Quiz
+      </a>
+      <a href="/" class="btn secondary-btn"><i class="fas fa-home"></i> Back to Home</a>
     </div>
   </div>
-
-  <%- include('partials/footer') %>
 </body>
 </html>
