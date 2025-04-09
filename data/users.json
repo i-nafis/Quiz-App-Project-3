@@ -32,5 +32,9 @@
   {
     "username": "hello",
     "password": "$2b$10$u5JqJs4Fk2VDsRcpNb2nJulMGIOBMRsm.p6npPWVrYHkxFJulBjb2"
+  },
+  {
+    "username": "as2",
+    "password": "$2b$10$ZveUjOJHTIOeb4QKYx/JBeKvIozGQm9f2iCC2FCv9iiujHIpUZPFy"
   }
 ]
