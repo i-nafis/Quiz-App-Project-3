@@ -18,6 +18,10 @@
     "username": "Max",
     "score": 5,
     "date": "2025-04-05T17:45:00Z"
+  },
+  {
+    "username": "test",
+    "score": 6,
+    "date": "2025-04-09T21:22:23.686Z"
   }
-  
 ]

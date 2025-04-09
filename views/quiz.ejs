@@ -1,71 +1,85 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title><%= title || "Quiz" %></title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css">
-  <link rel="stylesheet" href="/css/header.css">
-  <link rel="stylesheet" href="/css/style.css">
-  <link rel="stylesheet" href="/css/quiz.css">
-</head>
-<body>
-  <%- include('partials/header') %>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= title || "Quiz" %></title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css"
+    />
+    <link rel="stylesheet" href="/css/header.css" />
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/quiz.css" />
+  </head>
+  <body>
+    <%- include('partials/header') %>
 
-  <div class="container">
-    <div id="game" class="justify-center flex-column">
-      
-      <!-- HUD for progress and score -->
-      <div id="hud">
-        <div class="hud-item">
-          <p id="progressText" class="hud-prefix">
-            <i class="fas fa-question-circle"></i> Question
-          </p>
-          <div id="progressBar">
-            <div id="progressBarFull"></div>
+    <div class="container">
+      <div id="game" class="justify-center flex-column">
+        <!-- HUD for progress and score -->
+        <div id="hud">
+          <div class="hud-item">
+            <p id="progressText" class="hud-prefix">
+              <i class="fas fa-question-circle"></i> Question
+            </p>
+            <div id="progressBar">
+              <div id="progressBarFull"></div>
+            </div>
+          </div>
+          <div class="hud-item" id="score-container">
+            <p class="hud-prefix">Score</p>
+            <h1 class="hud-main-text" id="score">0</h1>
           </div>
         </div>
-        <div class="hud-item">
-          <p class="hud-prefix">
-             Score
-          </p>
-          <h1 class="hud-main-text" id="score">0</h1>
+
+        <!-- Question placeholder -->
+        <div class="question-container">
+          <h1 id="question">Loading question...</h1>
+
+          <!-- Choices will be updated by JS -->
+          <div class="choice-main-container">
+            <div class="choice-container">
+              <p class="choice-prefix">A</p>
+              <p class="choice-text" id="choiceA" data-choice="A">Choice A</p>
+            </div>
+            <div class="choice-container">
+              <p class="choice-prefix">B</p>
+              <p class="choice-text" id="choiceB" data-choice="B">Choice B</p>
+            </div>
+            <div class="choice-container">
+              <p class="choice-prefix">C</p>
+              <p class="choice-text" id="choiceC" data-choice="C">Choice C</p>
+            </div>
+            <div class="choice-container">
+              <p class="choice-prefix">D</p>
+              <p class="choice-text" id="choiceD" data-choice="D">Choice D</p>
+            </div>
+          </div>
         </div>
       </div>
-
-      <!-- Question placeholder -->
-      <h1 id="question">Loading question...</h1>
-
-      <!-- Choices will be updated by JS -->
-      <div class="choice-container">
-        <p class="choice-prefix">A</p>
-        <p class="choice-text" id="choiceA" data-choice="A">Choice A</p>
-      </div>
-      <div class="choice-container">
-        <p class="choice-prefix">B</p>
-        <p class="choice-text" id="choiceB" data-choice="B">Choice B</p>
-      </div>
-      <div class="choice-container">
-        <p class="choice-prefix">C</p>
-        <p class="choice-text" id="choiceC" data-choice="C">Choice C</p>
-      </div>
-      <div class="choice-container">
-        <p class="choice-prefix">D</p>
-        <p class="choice-text" id="choiceD" data-choice="D">Choice D</p>
-      </div>    
     </div>
-  </div>
 
-  <!-- Inject quiz questions from backend -->
-  <script>
-    const quizData = <%- JSON.stringify(questions) %>;
-  </script>
-  <script src="/js/quiz.js"></script>
-  <!-- Hidden form for submitting quiz results -->
-<form id="quizForm" action="/quiz/submit" method="POST" style="display: none;">
-  <% questions.forEach(function(question) { %>
-    <input type="hidden" name="answers[<%= question.id %>]" id="answer-<%= question.id %>" value="">
-  <% }); %>
-</form>
-</body>
+    <!-- Inject quiz questions from backend -->
+    <script>
+      const quizData = <%- JSON.stringify(questions) %>;
+    </script>
+    <script src="/js/quiz.js"></script>
+    <!-- Hidden form for submitting quiz results -->
+    <form
+      id="quizForm"
+      action="/quiz/submit"
+      method="POST"
+      style="display: none"
+    >
+      <% questions.forEach(function(question) { %>
+      <input
+        type="hidden"
+        name="answers[<%= question.id %>]"
+        id="answer-<%= question.id %>"
+        value=""
+      />
+      <% }); %>
+    </form>
+  </body>
 </html>

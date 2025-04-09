@@ -23,18 +23,19 @@ function showQuestion() {
   document.getElementById('choiceC').textContent = question.C;
   document.getElementById('choiceD').textContent = question.D;
 
-  // Attach click handlers
+  // Attach click handlers to each choice
   document.querySelectorAll('.choice-text').forEach(choice => {
     choice.onclick = () => handleAnswer(choice.dataset.choice);
   });
 
-  // Progress UI
+  // Update the progress UI
   document.getElementById('progressText').textContent =
     `Question ${currentQuestionIndex + 1} of ${quizData.length}`;
 
   document.getElementById('progressBarFull').style.width =
     `${((currentQuestionIndex + 1) / quizData.length) * 100}%`;
 }
+
 
 function handleAnswer(selectedLetter) {
   const correct = quizData[currentQuestionIndex].answer;
@@ -46,7 +47,6 @@ function handleAnswer(selectedLetter) {
   currentQuestionIndex++;
   showQuestion();
 }
-
 function submitScoreAndRedirect(score) {
   // Optionally, submit the score to the server (using fetch)
   fetch('/quiz/submit-json', {

@@ -2,11 +2,12 @@
 <html>
 <head>
   <title><%= title %></title>
+  <link rel="stylesheet" href="/css/quiz.css">
 </head>
 <body>
   <% include partials/header %>
   
-  <div class="container">
+  <div class="results-container">
     <h1><%= title %></h1>
     <p>You scored <strong><%= score %></strong> out of <strong><%= total %></strong>.</p>
     <p class="feedback"><%= message %></p>
