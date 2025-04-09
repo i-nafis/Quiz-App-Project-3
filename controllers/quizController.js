@@ -70,7 +70,7 @@ exports.processQuiz = (req, res) => {
   });
 };
 
-// ✅ New route: score submission via fetch (JSON)
+//  route: score submission via fetch (JSON)
 exports.submitScore = (req, res) => {
   const { score } = req.body;
 

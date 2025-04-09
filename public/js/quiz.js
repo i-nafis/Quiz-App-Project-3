@@ -48,9 +48,7 @@ function handleAnswer(selectedLetter) {
 }
 
 function submitScoreAndRedirect(score) {
-  const messageContainer = document.getElementById('question');
-  messageContainer.textContent = `🎉 You got ${score} out of ${quizData.length} correct!`;
-
+  // Optionally, submit the score to the server (using fetch)
   fetch('/quiz/submit-json', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -62,16 +60,39 @@ function submitScoreAndRedirect(score) {
     })
     .catch(err => {
       console.error("❌ Error submitting score:", err);
-    })
-    .finally(() => {
-      // Add a short delay so the user sees the score
-      setTimeout(() => {
-        console.log("➡️ Redirecting to leaderboard...");
-        window.location.href = '/leaderboard';
-      }, 2500); // 2.5 seconds
     });
+
+  // Determine the feedback message based on the score.
+  const feedback = getFeedbackMessage(score, quizData.length);
+
+  // Update the page content (using the element with id "game")
+  const gameContainer = document.getElementById('game');
+  gameContainer.innerHTML = `
+    <div class="results-popup">
+      <h2>Quiz Completed!</h2>
+      <p>🎉 You got ${score} out of ${quizData.length} correct!</p>
+      <p class="feedback">${feedback}</p>
+      <div class="actions">
+        <a href="/quiz" class="btn">Play Again</a>
+        <a href="/leaderboard" class="btn">Leaderboard</a>
+      </div>
+    </div>
+  `;
 }
 
-
-
-
+/**
+ * Helper function to decide on a feedback message based on the score.
+ * Adjust thresholds as needed.
+ */
+function getFeedbackMessage(score, total) {
+  const percentage = (score / total) * 100;
+  if (percentage === 100) {
+    return "Perfect score! Excellent work!";
+  } else if (percentage >= 80) {
+    return "Well done, you did a great job!";
+  } else if (percentage >= 50) {
+    return "Not bad, but you need to know more.";
+  } else {
+    return "Better luck next time! Keep studying and try again.";
+  }
+}

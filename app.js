@@ -21,7 +21,6 @@ const leaderboardRoutes = require('./routes/leaderboard');
 
 // Import custom authentication middleware.
 const authMiddleware = require('./middleware/authMiddleware');
-console.log('authMiddleware:', authMiddleware); // Debug log: should show { requireAuth: [Function], redirectIfAuthenticated: [Function] }
 
 // Initialize Express app.
 const app = express();
