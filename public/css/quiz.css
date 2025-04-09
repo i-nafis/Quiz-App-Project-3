@@ -68,6 +68,7 @@ body {
 #hud {
     display: flex;
     justify-content: space-between;
+    margin-top: 70px;
     align-items: center;
 }
 
