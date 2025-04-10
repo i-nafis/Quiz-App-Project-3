@@ -12,6 +12,7 @@ An interactive quiz application built with Node.js, Express, and EJS. Users can 
 - 📊 Leaderboard to track high scores
 - 🖼️ Clean UI with EJS templating
 - 🧩 Modular code structure with routes, controllers, and middleware
+- 🌓Dark/Light Mode
 
 ---
 

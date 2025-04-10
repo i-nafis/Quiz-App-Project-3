@@ -1,5 +1,7 @@
 let currentQuestionIndex = 0;
 let score = 0;
+let countdown;
+let timeLeft = 15;
 
 document.addEventListener("DOMContentLoaded", () => {
   showQuestion();
@@ -13,6 +15,9 @@ function showQuestion() {
     submitScoreAndRedirect(score);
     return;
   }
+
+  // Reset and start the timer
+  resetTimer();
 
   // Display question text
   document.getElementById("question").textContent = question.question;
@@ -38,6 +43,33 @@ function showQuestion() {
   }%`;
 }
 
+<<<<<<< HEAD
+=======
+function resetTimer() {
+  clearInterval(countdown);
+  timeLeft = 15;
+  updateTimerDisplay();
+
+  countdown = setInterval(() => {
+    timeLeft--;
+    updateTimerDisplay();
+
+    if (timeLeft <= 0) {
+      clearInterval(countdown);
+      currentQuestionIndex++;
+      showQuestion();
+    }
+  }, 1000);
+}
+
+function updateTimerDisplay() {
+  const timerDisplay = document.getElementById('timer');
+  if (timerDisplay) {
+    timerDisplay.textContent = timeLeft;
+  }
+}
+
+>>>>>>> fdf9d6b23fdbf9dcc0770ead63c8c93bb0a3c685
 function handleAnswer(selectedLetter) {
   const correct = quizData[currentQuestionIndex].answer;
   if (selectedLetter === correct) {
@@ -45,15 +77,24 @@ function handleAnswer(selectedLetter) {
     document.getElementById("score").textContent = score;
   }
 
+  clearInterval(countdown); // Stop the timer when user answers
   currentQuestionIndex++;
   showQuestion();
 }
+
 function submitScoreAndRedirect(score) {
+<<<<<<< HEAD
   // Optionally, submit the score to the server (using fetch)
   fetch("/quiz/submit-json", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ score }),
+=======
+  fetch('/quiz/submit-json', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ score })
+>>>>>>> fdf9d6b23fdbf9dcc0770ead63c8c93bb0a3c685
   })
     .then((res) => res.text())
     .then((data) => {
@@ -63,11 +104,14 @@ function submitScoreAndRedirect(score) {
       console.error("❌ Error submitting score:", err);
     });
 
-  // Determine the feedback message based on the score.
   const feedback = getFeedbackMessage(score, quizData.length);
 
+<<<<<<< HEAD
   // Update the page content (using the element with id "game")
   const gameContainer = document.getElementById("game");
+=======
+  const gameContainer = document.getElementById('game');
+>>>>>>> fdf9d6b23fdbf9dcc0770ead63c8c93bb0a3c685
   gameContainer.innerHTML = `
     <div class="results-popup">
       <h2>Results are in!</h2>
@@ -85,10 +129,6 @@ function submitScoreAndRedirect(score) {
   `;
 }
 
-/**
- * Helper function to decide on a feedback message based on the score.
- * Adjust thresholds as needed.
- */
 function getFeedbackMessage(score, total) {
   const percentage = (score / total) * 100;
   if (percentage === 100) {
