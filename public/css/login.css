@@ -1,13 +1,14 @@
-/* login.css - styled to match dark quiz theme */
+/* login.css - styled to match quiz theme with dark/light mode support */
 @import url('https://fonts.googleapis.com/css2?family=Nova+Square&display=swap');
 
 body {
-  background-color: #222222;
+  background-color: var(--bg-color);
   font-family: 'Nova Square', sans-serif;
-  color: #bdffe4;
+  color: var(--text-color);
   margin: 0;
   padding: 0;
   height: 10px;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .log-container {
@@ -18,15 +19,21 @@ body {
   max-width: 500px;
   margin: 170px auto;
   padding: 50px;
-  background-color: #2e2e2e;
+  background-color: rgba(46, 46, 46, 0.7);
   border-radius: 10px;
+  transition: background-color 0.3s ease;
+  box-shadow: 0 0 20px rgba(31, 195, 151, 0.2);
+}
+
+:root.light-mode .log-container {
+  background-color: rgba(240, 240, 240, 0.7);
 }
 
 h1 {
   text-align: center;
   margin-bottom: 25px;
   font-size: 3rem;
-  color: #1fc397;
+  color: var(--primary-color);
 }
 
 input {
@@ -35,13 +42,23 @@ input {
   margin: 10px 0;
   border: none;
   border-radius: 6px;
-  background-color: #444;
-  color: #fff;
+  background-color: rgba(68, 68, 68, 0.8);
+  color: var(--text-color);
   font-size: 1.4rem;
+  transition: background-color 0.3s ease;
+}
+
+:root.light-mode input {
+  background-color: rgba(255, 255, 255, 0.8);
+  color: #333;
 }
 
 input::placeholder {
   color: #bbb;
+}
+
+:root.light-mode input::placeholder {
+  color: #777;
 }
 
 .btn {
@@ -49,9 +66,9 @@ input::placeholder {
   padding: 12px;
   margin-left: 20px;
   margin-top: 15px;
-  background-color: #1fc397;
+  background-color: var(--primary-color);
   border: none;
-  color: #222;
+  color: var(--bg-color);
   border-radius: 2px;
   font-size: 1.6rem;
   cursor: pointer;
@@ -63,7 +80,7 @@ input::placeholder {
 }
 
 .error-message {
-  background-color: #ff4c4c33;
+  background-color: rgba(255, 76, 76, 0.2);
   color: #ff6666;
   padding: 10px;
   border-radius: 5px;
@@ -78,7 +95,7 @@ p {
 }
 
 a {
-  color: #1fc397;
+  color: var(--primary-color);
   text-decoration: none;
 }
 
