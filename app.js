@@ -24,6 +24,7 @@ const authMiddleware = require('./middleware/authMiddleware');
 
 // Initialize Express app.
 const app = express();
+app.set('trust proxy', true);
 
 // Load quiz questions at startup from the JSON file.
 let quizQuestions = [];
