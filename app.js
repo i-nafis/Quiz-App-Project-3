@@ -97,3 +97,7 @@ app.use((err, req, res, next) => {
 
 // Export the app module so it can be used by bin/www.
 module.exports = app;
+
+app.listen(3000, '0.0.0.0', () => {
+  console.log("Server running on port 3000");
+});
