@@ -7,6 +7,9 @@
       <ul>
         <li><a href="/" class="nav-link"><i class="fas fa-home"></i> Home</a></li>
         <li><a href="/leaderboard" class="nav-link"><i class="fas fa-trophy"></i> Leaderboard</a></li>
+        <li class="theme-toggle" id="theme-toggle" title="Toggle Dark/Light Mode">
+          <i class="fas fa-moon"></i>
+        </li>
         <% if (user) { %>
           <div class="user-nav">
             <li class="user-info">
@@ -22,4 +25,12 @@
       </ul>
     </nav>
   </div>
+  <script>
+    (function() {
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'light') {
+        document.documentElement.classList.add('light-mode');
+      }
+    })();
+  </script>
 </header>

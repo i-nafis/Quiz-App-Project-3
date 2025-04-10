@@ -1,10 +1,9 @@
-/* leaderboard.css - Clean and neon-dark styled */
+/* leaderboard.css - Clean styled with dark/light mode support */
 @import url('https://fonts.googleapis.com/css2?family=Nova+Square&display=swap');
 
 body {
-  background-color: #222;
+  /* These will be overridden by the global theme variables */
   font-family: 'Nova Square', sans-serif;
-  color: #bdffe4;
   margin: 0;
   padding: 0;
 }
@@ -13,17 +12,23 @@ body {
   max-width: 800px;
   margin: 60px auto;
   padding: 20px;
-  background-color: #2a2a2a;
+  background-color: rgba(42, 42, 42, 0.5);
   border-radius: 10px;
-  box-shadow: 0 0 30px #1fc39744;
+  box-shadow: 0 0 30px rgba(31, 195, 151, 0.27);
   max-height: 700px;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+:root.light-mode .container {
+  background-color: rgba(240, 240, 240, 0.8);
+  box-shadow: 0 0 30px rgba(31, 195, 151, 0.2);
 }
 
 h1 {
   text-align: center;
   font-size: 3rem;
   margin-bottom: 2rem;
-  color: #1fc397;
+  color: var(--primary-color);
 }
 
 .leaderboard-table {
@@ -31,8 +36,14 @@ h1 {
   border-collapse: collapse;
   border-radius: 10px;
   overflow: hidden;
-  background-color: #1f1f1f;
-  box-shadow: 0 0 10px #1fc39755;
+  background-color: rgba(31, 31, 31, 0.7);
+  box-shadow: 0 0 10px rgba(31, 195, 151, 0.33);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+:root.light-mode .leaderboard-table {
+  background-color: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 0 10px rgba(31, 195, 151, 0.2);
 }
 
 .leaderboard-table th,
@@ -41,21 +52,37 @@ h1 {
   text-align: center;
   font-size: 1.4rem;
   border-bottom: 1px solid #333;
+  color: var(--text-color);
+  transition: border-color 0.3s ease;
+}
+
+:root.light-mode .leaderboard-table th,
+:root.light-mode .leaderboard-table td {
+  border-bottom: 1px solid #ddd;
 }
 
 .leaderboard-table th {
-  background-color: #1fc39722;
-  color: #1fc397;
+  background-color: rgba(31, 195, 151, 0.13);
+  color: var(--primary-color);
   font-size: 1.5rem;
 }
 
 .leaderboard-table tr:nth-child(even) {
-  background-color: #292929;
+  background-color: rgba(41, 41, 41, 0.5);
+  transition: background-color 0.3s ease;
+}
+
+:root.light-mode .leaderboard-table tr:nth-child(even) {
+  background-color: rgba(240, 240, 240, 0.5);
 }
 
 .leaderboard-table tr:hover {
-  background-color: #333;
+  background-color: rgba(51, 51, 51, 0.7);
   transition: 0.3s ease-in-out;
+}
+
+:root.light-mode .leaderboard-table tr:hover {
+  background-color: rgba(220, 220, 220, 0.7);
 }
 
 .text-center {
@@ -67,8 +94,8 @@ h1 {
   margin-top: 2rem;
   padding: 12px 24px;
   font-size: 1.4rem;
-  background-color: #1fc397;
-  color: #222;
+  background-color: var(--primary-color);
+  color: var(--bg-color);
   border: none;
   border-radius: 8px;
   text-decoration: none;
@@ -79,48 +106,54 @@ h1 {
   background-color: #17a17c;
   cursor: pointer;
 }
+
 footer {
-    text-align: center;
-    padding: 10px 0;
-    font-size: 1.2rem;
-    color: #888;
-    background: transparent;
-    margin-top: 30px;
-  }
-  
-  .highlight-user {
-    background-color: #1fc39733 !important;
-    font-weight: bold;
-  }
-  
-  .empty-state {
-    text-align: center;
-    padding: 50px 0;
-  }
-  
-  .empty-icon {
-    font-size: 4rem;
-    color: #1fc397;
-    margin-bottom: 1rem;
-    opacity: 0.5;
-  }
-  
-  .action-buttons {
-    display: flex;
-    align-items: center;
-    margin-top: 2rem;
-  }
-  
-  .play-btn {
-    background: linear-gradient(90deg, #1fc397 0%, #27ae60 100%);
-    margin-bottom: 1rem;
-  }
-  
-  .play-btn:hover {
-    background: linear-gradient(90deg, #27ae60 0%, #1fc397 100%);
-  }
-  
-  .secondary-btn {
-    background-color: transparent;
-    border: 2px solid #1fc397;
-  }
+  text-align: center;
+  padding: 10px 0;
+  font-size: 1.2rem;
+  color: #888;
+  background: transparent;
+  margin-top: 30px;
+}
+
+.highlight-user {
+  background-color: rgba(31, 195, 151, 0.2) !important;
+  font-weight: bold;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 50px 0;
+}
+
+.empty-icon {
+  font-size: 4rem;
+  color: var(--primary-color);
+  margin-bottom: 1rem;
+  opacity: 0.5;
+}
+
+.action-buttons {
+  display: flex;
+  align-items: center;
+  margin-top: 2rem;
+}
+
+.play-btn {
+  background: linear-gradient(90deg, var(--primary-color) 0%, #27ae60 100%);
+  margin-bottom: 1rem;
+}
+
+.play-btn:hover {
+  background: linear-gradient(90deg, #27ae60 0%, var(--primary-color) 100%);
+}
+
+.secondary-btn {
+  background-color: transparent;
+  border: 2px solid var(--primary-color);
+  color: var(--text-color);
+}
+
+:root.light-mode .secondary-btn {
+  color: var(--text-color);
+}
