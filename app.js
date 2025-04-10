@@ -24,7 +24,7 @@ const authMiddleware = require('./middleware/authMiddleware');
 
 // Initialize Express app.
 const app = express();
-app.set('trust proxy', true);
+// app.set('trust proxy', true);
 
 // Load quiz questions at startup from the JSON file.
 let quizQuestions = [];
@@ -99,6 +99,6 @@ app.use((err, req, res, next) => {
 // Export the app module so it can be used by bin/www.
 module.exports = app;
 
-app.listen(3000, '0.0.0.0', () => {
-  console.log("Server running on port 3000");
-});
+//app.listen(3000, '0.0.0.0', () => {
+//  console.log("Server running on port 3000");
+// });
