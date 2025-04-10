@@ -7,15 +7,19 @@ body {
   color: #bdffe4;
   margin: 0;
   padding: 0;
+  height: 10px;
 }
 
 .log-container {
-  max-width: 600px;
-  margin: 250px auto;
-  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  max-width: 500px;
+  margin: 170px auto;
+  padding: 50px;
   background-color: #2e2e2e;
   border-radius: 10px;
-  box-shadow: 0 0 20px #1fc39788;
 }
 
 h1 {
@@ -44,6 +48,7 @@ input::placeholder {
   width: 100%;
   padding: 12px;
   margin-left: 20px;
+  margin-top: 15px;
   background-color: #1fc397;
   border: none;
   color: #222;

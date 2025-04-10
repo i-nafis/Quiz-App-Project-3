@@ -1,4 +1,4 @@
-/* register.css - styled to match dark quiz theme */
+/* login.css - styled to match dark quiz theme */
 @import url('https://fonts.googleapis.com/css2?family=Nova+Square&display=swap');
 
 body {
@@ -7,15 +7,20 @@ body {
   color: #bdffe4;
   margin: 0;
   padding: 0;
+  height: 10px;
 }
 
 .reg-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
   max-width: 500px;
-  margin: 250px auto;
-  padding: 30px;
+  margin: 170px auto;
+  padding: 50px;
   background-color: #2e2e2e;
   border-radius: 10px;
-  box-shadow: 0 0 20px #1fc39788;
 }
 
 h1 {
@@ -26,7 +31,7 @@ h1 {
 }
 
 input {
-  width: 100%;
+  width: 300px;
   padding: 12px;
   margin: 10px 0;
   border: none;
@@ -42,12 +47,13 @@ input::placeholder {
 
 .btn {
   width: 100%;
-  padding: 12px;
-  margin-left: 70px;
+  padding: 8px;
+  margin-left: 50px;
+  margin-top: 15px;
   background-color: #1fc397;
   border: none;
   color: #222;
-  border-radius: 6px;
+  border-radius: 2px;
   font-size: 1.6rem;
   cursor: pointer;
   transition: 0.2s ease-in-out;
@@ -75,8 +81,4 @@ p {
 a {
   color: #1fc397;
   text-decoration: none;
-}
-
-a:hover {
-  text-decoration: underline;
 }
