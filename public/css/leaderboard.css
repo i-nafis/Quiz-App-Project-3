@@ -1,27 +1,29 @@
 /* leaderboard.css - Clean and neon-dark styled */
-@import url('https://fonts.googleapis.com/css2?family=Nova+Square&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Nova+Square&display=swap");
 
 body {
   background-color: #222;
-  font-family: 'Nova Square', sans-serif;
+  font-family: "Nova Square", sans-serif;
   color: #bdffe4;
-  margin: 0;
-  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 120px;
 }
 
 .container {
   max-width: 800px;
-  margin: 60px auto;
   padding: 20px;
   background-color: #2a2a2a;
   border-radius: 10px;
-  box-shadow: 0 0 30px #1fc39744;
-  max-height: 700px;
+  box-shadow: 0 0 10px #1fc39744;
+  max-height: 580px;
 }
 
 h1 {
   text-align: center;
   font-size: 3rem;
+  margin-top: 5rem;
   margin-bottom: 2rem;
   color: #1fc397;
 }
@@ -31,6 +33,7 @@ h1 {
   border-collapse: collapse;
   border-radius: 10px;
   overflow: hidden;
+  margin-top: 20px;
   background-color: #1f1f1f;
   box-shadow: 0 0 10px #1fc39755;
 }
@@ -80,47 +83,33 @@ h1 {
   cursor: pointer;
 }
 footer {
-    text-align: center;
-    padding: 10px 0;
-    font-size: 1.2rem;
-    color: #888;
-    background: transparent;
-    margin-top: 30px;
-  }
-  
-  .highlight-user {
-    background-color: #1fc39733 !important;
-    font-weight: bold;
-  }
-  
-  .empty-state {
-    text-align: center;
-    padding: 50px 0;
-  }
-  
-  .empty-icon {
-    font-size: 4rem;
-    color: #1fc397;
-    margin-bottom: 1rem;
-    opacity: 0.5;
-  }
-  
-  .action-buttons {
-    display: flex;
-    align-items: center;
-    margin-top: 2rem;
-  }
-  
-  .play-btn {
-    background: linear-gradient(90deg, #1fc397 0%, #27ae60 100%);
-    margin-bottom: 1rem;
-  }
-  
-  .play-btn:hover {
-    background: linear-gradient(90deg, #27ae60 0%, #1fc397 100%);
-  }
-  
-  .secondary-btn {
-    background-color: transparent;
-    border: 2px solid #1fc397;
-  }
+  text-align: center;
+  padding: 10px 0;
+  font-size: 1.2rem;
+  color: #888;
+  background: transparent;
+  margin-top: 30px;
+}
+
+.highlight-user {
+  background-color: #1fc39733 !important;
+  font-weight: bold;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 50px 0;
+}
+
+.empty-icon {
+  font-size: 4rem;
+  color: #1fc397;
+  margin-bottom: 1rem;
+  opacity: 0.5;
+}
+
+.action-buttons {
+  display: flex;
+  align-items: center;
+  margin-top: 2rem;
+}
