@@ -1,7 +1,10 @@
 let currentQuestionIndex = 0;
 let score = 0;
 let countdown;
+let timerInterval;
 let timeLeft = 15;
+const totalTime = 15; // Define the total time for reference
+const updateFrequency = 50; // Update every 50ms timer bar
 
 document.addEventListener("DOMContentLoaded", () => {
   showQuestion();
@@ -33,33 +36,59 @@ function showQuestion() {
     choice.onclick = () => handleAnswer(choice.dataset.choice);
   });
 
-  // Update the progress UI
+  // Update the progress UI - showing question number
   document.getElementById("progressText").textContent = `Question ${
     currentQuestionIndex + 1
   } of ${quizData.length}`;
-
-  document.getElementById("progressBarFull").style.width = `${
-    ((currentQuestionIndex + 1) / quizData.length) * 100
-  }%`;
+  
+  // Reset progress bar at the start of each question
+  document.getElementById("progressBarFull").style.width = '0%';
 }
 
-<<<<<<< HEAD
-=======
 function resetTimer() {
+  // Clear any existing timers
   clearInterval(countdown);
-  timeLeft = 15;
+  clearInterval(timerInterval);
+  
+  timeLeft = totalTime;
+  let startTime = new Date().getTime();
+  let endTime = startTime + (totalTime * 1000);
+  
   updateTimerDisplay();
-
+  
+  // Initialize progress bar width to 0%
+  document.getElementById("progressBarFull").style.width = '0%';
+  
+  // Set up the countdown for second-based display updates
   countdown = setInterval(() => {
     timeLeft--;
     updateTimerDisplay();
-
+    
     if (timeLeft <= 0) {
       clearInterval(countdown);
+      clearInterval(timerInterval);
       currentQuestionIndex++;
       showQuestion();
     }
   }, 1000);
+  
+  // Set up the smooth progress bar animation
+  timerInterval = setInterval(() => {
+    let currentTime = new Date().getTime();
+    let elapsedTime = currentTime - startTime;
+    let remainingTime = endTime - currentTime;
+    
+    if (remainingTime <= 0) {
+      clearInterval(timerInterval);
+      document.getElementById("progressBarFull").style.width = '100%';
+      return;
+    }
+    
+    // Calculate progress percentage with higher precision
+    const progressPercentage = (elapsedTime / (totalTime * 1000)) * 100;
+    document.getElementById("progressBarFull").style.width = `${progressPercentage}%`;
+    
+  }, updateFrequency); 
 }
 
 function updateTimerDisplay() {
@@ -69,7 +98,6 @@ function updateTimerDisplay() {
   }
 }
 
->>>>>>> fdf9d6b23fdbf9dcc0770ead63c8c93bb0a3c685
 function handleAnswer(selectedLetter) {
   const correct = quizData[currentQuestionIndex].answer;
   if (selectedLetter === correct) {
@@ -77,24 +105,19 @@ function handleAnswer(selectedLetter) {
     document.getElementById("score").textContent = score;
   }
 
-  clearInterval(countdown); // Stop the timer when user answers
+  // Stop all timers when user answers
+  clearInterval(countdown);
+  clearInterval(timerInterval);
+  
   currentQuestionIndex++;
   showQuestion();
 }
 
 function submitScoreAndRedirect(score) {
-<<<<<<< HEAD
-  // Optionally, submit the score to the server (using fetch)
-  fetch("/quiz/submit-json", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ score }),
-=======
   fetch('/quiz/submit-json', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ score })
->>>>>>> fdf9d6b23fdbf9dcc0770ead63c8c93bb0a3c685
   })
     .then((res) => res.text())
     .then((data) => {
@@ -106,12 +129,7 @@ function submitScoreAndRedirect(score) {
 
   const feedback = getFeedbackMessage(score, quizData.length);
 
-<<<<<<< HEAD
-  // Update the page content (using the element with id "game")
-  const gameContainer = document.getElementById("game");
-=======
   const gameContainer = document.getElementById('game');
->>>>>>> fdf9d6b23fdbf9dcc0770ead63c8c93bb0a3c685
   gameContainer.innerHTML = `
     <div class="results-popup">
       <h2>Results are in!</h2>
