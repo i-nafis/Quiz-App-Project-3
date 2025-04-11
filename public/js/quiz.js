@@ -121,10 +121,7 @@ function handleAnswer(selectedLetter) {
   if (selectedLetter === correct) {
     score++;
     document.getElementById("score").textContent = score;
-    feedback.textContent = "✅ Correct!";
     triggerConfetti();
-  } else {
-    feedback.textContent = `❌ Incorrect! The correct answer was ${correct}.`;
   }
 
   // 🧼 Reset colors before showing next question

@@ -106,7 +106,7 @@ body {
 #progressBar {
     width: 20rem;
     height: 3rem;
-    border: 0.2rem solid var(--primary-color);
+    border: 0.3rem solid #0d7156;
     margin-top: 2rem;
     border-radius: 50px;
     overflow: hidden;
