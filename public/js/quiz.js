@@ -46,49 +46,41 @@ function showQuestion() {
 }
 
 function resetTimer() {
-  // Clear any existing timers
   clearInterval(countdown);
   clearInterval(timerInterval);
-  
+
   timeLeft = totalTime;
-  let startTime = new Date().getTime();
-  let endTime = startTime + (totalTime * 1000);
-  
-  updateTimerDisplay();
-  
-  // Initialize progress bar width to 0%
-  document.getElementById("progressBarFull").style.width = '0%';
-  
-  // Set up the countdown for second-based display updates
+  const countdownEl = document.getElementById("countdown");
+  const progressBar = document.getElementById("progressBarFull");
+
+  const startTime = new Date().getTime();
+  const endTime = startTime + totalTime * 1000;
+
+  // Updates the numeric countdown every second
   countdown = setInterval(() => {
-    timeLeft--;
-    updateTimerDisplay();
-    
-    if (timeLeft <= 0) {
+    const now = new Date().getTime();
+    const remaining = Math.max(0, Math.floor((endTime - now) / 1000));
+    countdownEl.textContent = remaining;
+
+    if (remaining <= 0) {
       clearInterval(countdown);
-      clearInterval(timerInterval);
-      currentQuestionIndex++;
-      showQuestion();
     }
   }, 1000);
-  
-  // Set up the smooth progress bar animation
+
+  // Smooth progress bar shrink
   timerInterval = setInterval(() => {
-    let currentTime = new Date().getTime();
-    let elapsedTime = currentTime - startTime;
-    let remainingTime = endTime - currentTime;
-    
+    const now = new Date().getTime();
+    const remainingTime = endTime - now;
+
     if (remainingTime <= 0) {
       clearInterval(timerInterval);
-      document.getElementById("progressBarFull").style.width = '100%';
+      handleAnswer(null); // auto skip if time runs out
       return;
     }
-    
-    // Calculate progress percentage with higher precision
-    const progressPercentage = (elapsedTime / (totalTime * 1000)) * 100;
-    document.getElementById("progressBarFull").style.width = `${progressPercentage}%`;
-    
-  }, updateFrequency); 
+
+    const percent = (remainingTime / (totalTime * 1000)) * 100;
+    progressBar.style.width = `${percent}%`;
+  }, updateFrequency);
 }
 
 function updateTimerDisplay() {
@@ -100,17 +92,65 @@ function updateTimerDisplay() {
 
 function handleAnswer(selectedLetter) {
   const correct = quizData[currentQuestionIndex].answer;
+  const choices = document.querySelectorAll(".choice-text");
+
+  // Stop all timers
+  clearInterval(countdown);
+  clearInterval(timerInterval);
+
+  // Disable further clicking
+  choices.forEach(choice => {
+    choice.onclick = null;
+  });
+
+  // Highlight selected and correct answers
+  choices.forEach(choice => {
+    const choiceLetter = choice.dataset.choice;
+  
+    if (choiceLetter === correct) {
+      choice.parentElement.classList.add("correct");
+    }
+
+    if (choiceLetter === selectedLetter && choiceLetter !== correct) {
+      choice.parentElement.classList.add("incorrect");
+    }
+  });
+
+  const feedback = document.getElementById("feedback");
+
   if (selectedLetter === correct) {
     score++;
     document.getElementById("score").textContent = score;
+    feedback.textContent = "✅ Correct!";
+    triggerConfetti();
+  } else {
+    feedback.textContent = `❌ Incorrect! The correct answer was ${correct}.`;
   }
 
-  // Stop all timers when user answers
-  clearInterval(countdown);
-  clearInterval(timerInterval);
-  
-  currentQuestionIndex++;
-  showQuestion();
+  // 🧼 Reset colors before showing next question
+  setTimeout(() => {
+    feedback.textContent = "";
+
+    // Remove .correct and .incorrect from the full choice container
+    choices.forEach(choice => {
+      const container = choice.parentElement;
+      container.classList.remove("correct", "incorrect");
+    });
+
+    currentQuestionIndex++;
+    showQuestion();
+  }, 2000);
+}
+
+function triggerConfetti() {
+  const confetti = document.getElementById("confetti");
+  confetti.style.display = "block";
+  confetti.innerHTML = "🎉🎉🎉";
+
+  setTimeout(() => {
+    confetti.style.display = "none";
+    confetti.innerHTML = "";
+  }, 1000);
 }
 
 function submitScoreAndRedirect(score) {

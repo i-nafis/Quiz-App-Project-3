@@ -19,6 +19,7 @@
       <div id="game" class="justify-center flex-column">
         <!-- HUD for progress and score -->
         <div id="hud">
+          <!-- Question Progress -->
           <div class="hud-item">
             <p id="progressText" class="hud-prefix">
               <i class="fas fa-question-circle"></i> Question
@@ -27,11 +28,19 @@
               <div id="progressBarFull"></div>
             </div>
           </div>
+        
+          <!-- Score -->
           <div class="hud-item" id="score-container">
             <p class="hud-prefix">Score</p>
             <h1 class="hud-main-text" id="score">0</h1>
           </div>
-        </div>
+        
+          <!-- Timer -->
+          <div class="hud-item" id="timer-container">
+            <p class="hud-prefix">Time Left</p>
+            <h1 class="hud-main-text" id="countdown">15</h1>
+          </div>
+        </div> <!-- ends #hud -->
 
         <!-- Question placeholder -->
         <div class="question-container">
@@ -48,21 +57,23 @@
           <div class="choice-main-container">
             <div class="choice-container">
               <p class="choice-prefix">A</p>
-              <p class="choice-text" id="choiceA" data-choice="A">Choice A</p>
+              <p class="choice-text choice" id="choiceA" data-choice="A">Choice A</p>
             </div>
             <div class="choice-container">
               <p class="choice-prefix">B</p>
-              <p class="choice-text" id="choiceB" data-choice="B">Choice B</p>
+              <p class="choice-text choice" id="choiceB" data-choice="B">Choice B</p>
             </div>
             <div class="choice-container">
               <p class="choice-prefix">C</p>
-              <p class="choice-text" id="choiceC" data-choice="C">Choice C</p>
+              <p class="choice-text choice" id="choiceC" data-choice="C">Choice C</p>
             </div>
             <div class="choice-container">
               <p class="choice-prefix">D</p>
-              <p class="choice-text" id="choiceD" data-choice="D">Choice D</p>
+              <p class="choice-text choice" id="choiceD" data-choice="D">Choice D</p>
             </div>
           </div>
+          <div id="feedback" class="feedback-message"></div>
+          <div id="confetti" style="display: none;"></div>
         </div>
       </div>
     </div>
