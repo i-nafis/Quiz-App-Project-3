@@ -102,3 +102,65 @@ a {
 a:hover {
   text-decoration: underline;
 }
+
+@media screen and (max-width: 1024px) {
+  .log-container {
+    max-width: 500px;
+    margin: 150px auto;
+  }
+  
+  h1 {
+    font-size: 3rem;
+  }
+  
+  input {
+    width: 100%;
+    font-size: 1.6rem;
+    padding: 12px;
+  }
+  
+  .btn {
+    width: 100%;
+    margin-left: 0;
+    font-size: 1.6rem;
+    padding: 12px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .log-container {
+    max-width: 90%;
+    margin: 180px auto;
+    padding: 40px 30px;
+  }
+  
+  h1 {
+    font-size: 2.8rem;
+    margin-bottom: 25px;
+  }
+  
+  input {
+    width: 100%;
+    font-size: 1.5rem;
+    padding: 12px;
+    margin: 12px 0;
+  }
+  
+  .btn {
+    width: 100%;
+    margin-left: 0;
+    font-size: 1.6rem;
+    padding: 12px;
+    margin-top: 15px;
+  }
+  
+  p {
+    font-size: 1.4rem;
+    margin-top: 20px;
+  }
+  
+  .error-message {
+    font-size: 1.3rem;
+    padding: 10px;
+  }
+}
