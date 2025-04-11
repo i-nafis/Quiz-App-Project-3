@@ -189,13 +189,15 @@ function submitScoreAndRedirect(score) {
 
 function getFeedbackMessage(score, total) {
   const percentage = (score / total) * 100;
+
   if (percentage === 100) {
-    return "Perfect score! Excellent work!";
+    return "🎉 Genius alert! Did Google call asking for their answers back?";
   } else if (percentage >= 80) {
-    return "Well done, you did a great job!";
+    return "🚀 Awesome job! You've clearly done your homework—or guessed really well!";
   } else if (percentage >= 50) {
-    return "Not bad, but you need to know more.";
+    return "😅 Halfway there! Your brain called—it wants a rematch.";
   } else {
-    return "Better luck next time! Keep studying and try again.";
+    return "🤷‍♂️ Oops! Did the quiz catch you napping? Wake up and try again!";
   }
 }
+

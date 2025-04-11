@@ -158,7 +158,91 @@ body {
 }
 
 @media screen and (max-width: 768px) {
-    .choice-container {
-        min-width: 40rem;
+    /* Make sure the overall game container fits the screen */
+    #game {
+      width: 100%;
+      padding: 10px;
     }
-}
+  
+    /* Stack HUD elements for better vertical flow */
+    #hud {
+      width: 100%;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      margin-top: 20px;
+    }
+    .hud-item {
+      width: 100%;
+      text-align: center;
+      font-size: 1.8rem;
+    }
+    #timer-container{
+        display: none;
+    }
+  
+    /* Adjust the progress bar if needed */
+    #progressBar {
+      width: 90%;
+      height: 2.5rem;
+    }
+  
+    /* Adapt the question container for a flexible height that fits in viewport */
+    .question-container {
+      width: 95%;
+      max-height: 70vh; /* Adjusts to 70% of viewport height */
+      height: auto;
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-evenly;
+    }
+  
+    /* Adjust question text styling */
+    #question {
+      font-size: 2rem;
+      text-align: center;
+      margin: 0.5rem 0;
+    }
+  
+    /* Style the choice containers so options are centered */
+    .choice-container {
+      width: 100%;
+      height: auto;
+      padding: 10px;
+      margin: 8px 0;
+      display: flex;
+      justify-content: center; /* Center content horizontally */
+      align-items: center;     /* Center content vertically */
+    }
+  
+    /* Hide the letter prefixes on mobile */
+    .choice-prefix {
+      display: none;
+    }
+  
+    /* Center the option text inside each box */
+    .choice-text {
+      width: 100%;
+      padding: 0;
+      text-align: center;
+      font-size: 1.8rem;
+    }
+  
+    /* Ensure the timer bar remains visible */
+    #timer-container {
+      width: 90%;
+      margin-top: 10px;
+      height: 8px; /* Slightly thicker for better visibility */
+      background-color: rgba(0, 0, 0, 0.1);
+      border-radius: 3px;
+    }
+    
+    /* Adjust button styling for consistent mobile layout */
+    .btn {
+      width: 100%;
+      font-size: 1.8rem;
+      padding: 1rem 0;
+    }
+  }
+  
