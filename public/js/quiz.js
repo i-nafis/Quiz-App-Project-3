@@ -121,7 +121,15 @@ function handleAnswer(selectedLetter) {
   if (selectedLetter === correct) {
     score++;
     document.getElementById("score").textContent = score;
-    triggerConfetti();
+    feedback.textContent = "✅ Correct!";
+
+    // 🎉 New Confetti
+    confetti({
+      particleCount: 100,
+      spread: 70,
+      origin: { y: 0.6 },
+      colors: ['#0d7156', '#00b894', '#ffffff', '#c8f7c5']
+    });
   }
 
   // 🧼 Reset colors before showing next question
@@ -197,4 +205,3 @@ function getFeedbackMessage(score, total) {
     return "🤷‍♂️ Oops! Did the quiz catch you napping? Wake up and try again!";
   }
 }
-
