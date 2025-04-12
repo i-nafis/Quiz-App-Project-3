@@ -17,23 +17,35 @@
           <p class="tagline">Challenge yourself with our knowledge quiz!</p>
         </div>
 
+          <% if (user) { %>
+          <div class="dropdown-wrapper" style="display: flex; justify-content: center; margin-top: 0.5rem; margin-bottom: 1.5rem;">
+            <form action="/quiz/start" method="POST" class="start-form" id="quizForm" style="display: flex; align-items: center; gap: 1rem;">
+              <label for="numQuestions" style="font-size: 1.5rem; color: white;">Number of Questions:</label>
+              <select name="numQuestions" id="numQuestions" required style="padding: 0.5rem 1rem; font-size: 1.2rem; border-radius: 10px;">
+                <option value="5">5</option>
+                <option value="10" selected>10</option>
+                <option value="15">15</option>
+                <option value="20">20</option>
+              </select>
+            </form>
+          </div>
+          <% } %>
+
           <div class="action-buttons">
             <% if (user) { %>
-            <!-- If user is logged in, show the Play button -->
-            <a href="/quiz" class="btn play-btn">
-              <i class="fas fa-play-circle"></i> Start Quiz
-            </a>
-            <a href="/leaderboard" class="btn secondary-btn">
-              <i class="fas fa-trophy"></i> Leaderboard
-            </a>
+              <button type="submit" form="quizForm" class="btn">
+                <i class="fas fa-play-circle"></i> Start Quiz
+              </button>
+              <a href="/leaderboard" class="btn secondary-btn">
+                <i class="fas fa-trophy"></i> Leaderboard
+              </a>
             <% } else { %>
-            <!-- If user is not logged in, show Sign In and Register buttons -->
-            <a href="/auth/login" class="btn login-btn">
-              <i class="fas fa-sign-in-alt"></i> Sign In
-            </a>
-            <a href="/leaderboard" class="btn secondary-btn">
-              <i class="fas fa-trophy"></i> Leaderboard
-            </a>
+              <a href="/auth/login" class="btn login-btn">
+                <i class="fas fa-sign-in-alt"></i> Sign In
+              </a>
+              <a href="/leaderboard" class="btn secondary-btn">
+                <i class="fas fa-trophy"></i> Leaderboard
+              </a>
             <% } %>
           </div>
 

@@ -64,7 +64,7 @@ p {
 .tagline {
   font-size: 2.4rem;
   color: var(--text-color);
-  margin-bottom: 4rem;
+  margin-bottom: 1.5rem;
   text-align: center;
 }
 
@@ -175,6 +175,16 @@ p {
 
 .hidden { 
   display: none; 
+}
+select {
+  border: none;
+  outline: none;
+  background-color: var(--primary-color);
+  color: white;
+  font-family: "Nova Square", cursive;
+  font-size: 1.3rem;
+  border-radius: 15px;
+  padding: 10px 20px;
 }
 
 /* Buttons */
