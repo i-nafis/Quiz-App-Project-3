@@ -18,7 +18,7 @@ An interactive quiz application built with Node.js, Express, and EJS. Users can 
 
 - ⏱️ Countdown Timer per Question
 - ✅ Answer validation with visual feedback
-  (Correct = green + glow | Incorrect = red + shake)
+  (Correct = green | Incorrect = red )
 - 🎉 Confetti animation when user answers correctly 
   (Uses Canvas Confetti with custom color palette)
 - 🌈 Glowing animation effect on correct answers
