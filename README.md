@@ -14,6 +14,18 @@ An interactive quiz application built with Node.js, Express, and EJS. Users can 
 - 🧩 Modular code structure with routes, controllers, and middleware
 - 🌓Dark/Light Mode
 
+### 🧠 Gameplay Enhancements
+
+- ⏱️ Countdown Timer per Question
+- ✅ Answer validation with visual feedback
+  (Correct = green + glow | Incorrect = red + shake)
+- 🎉 Confetti animation when user answers correctly 
+  (Uses Canvas Confetti with custom color palette)
+- 🌈 Glowing animation effect on correct answers
+- 🔁 Auto-next after answer selection
+- 📥 Ability to select number of quiz questions before starting
+
+
 ---
 
 ## 📂 Project Structure
@@ -55,6 +67,13 @@ http://localhost:3000
 - Wong, Jessica  
 
 ---
+
+## 🌐 Deployment
+
+🔗 **Live App**: [https://quiz.afk.ac](https://quiz.afk.ac)
+
+---
+
 
 ## 📝 License
 
