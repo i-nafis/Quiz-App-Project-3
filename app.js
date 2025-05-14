@@ -5,13 +5,14 @@
 // sets up the view engine (EJS), loads quiz data,
 // and mounts the various route modules for the app.
 // ---------------------------------------------
-
+require('dotenv').config();
 const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const logger = require('morgan');
 const fs = require('fs');
+const mongoose = require('mongoose');
 
 // Import route modules.
 const indexRoutes = require('./routes/index');
@@ -25,6 +26,15 @@ const authMiddleware = require('./middleware/authMiddleware');
 // Initialize Express app.
 const app = express();
 // app.set('trust proxy', true);
+
+// Connect to MongoDB
+mongoose.connect(process.env.MONGO_URI)
+.then(() => {
+  console.log('Successfully connected to MongoDB');
+})
+.catch((error) => {
+  console.log('MongoDB connection error, error');
+});
 
 // Load quiz questions at startup from the JSON file.
 let quizQuestions = [];
