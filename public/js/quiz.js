@@ -164,33 +164,67 @@ function submitScoreAndRedirect(score) {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ score })
   })
-    .then((res) => res.text())
+    .then((res) => res.json())
     .then((data) => {
       console.log("✅ Score submitted:", data);
+      
+      // Get the attempt ID for the review link
+      const attemptId = data.attemptId;
+      
+      const feedback = getFeedbackMessage(score, quizData.length);
+
+      const gameContainer = document.getElementById('game');
+      gameContainer.innerHTML = `
+        <div class="results-popup">
+          <h2>Results are in!</h2>
+          <p>🎉 You got ${score} out of ${quizData.length} correct!</p>
+          <p class="feedback">${feedback}</p>
+          <div class="action-buttons">
+            ${attemptId ? `
+              <a href="/quiz/review/${attemptId}" class="btn review-btn">
+                <i class="fas fa-search"></i> Review Answers
+              </a>
+            ` : ''}
+            <a href="/quiz" class="btn play-btn">
+              <i class="fas fa-play-circle"></i> Play Again
+            </a>
+            <a href="/leaderboard" class="btn secondary-btn">
+              <i class="fas fa-trophy"></i> Leaderboard
+            </a>
+          </div>
+        </div>
+      `;
     })
     .catch((err) => {
       console.error("❌ Error submitting score:", err);
+      
+      // Show results with error message
+      const feedback = getFeedbackMessage(score, quizData.length);
+
+      const gameContainer = document.getElementById('game');
+      gameContainer.innerHTML = `
+        <div class="results-popup">
+          <h2>Results are in!</h2>
+          <p>🎉 You got ${score} out of ${quizData.length} correct!</p>
+          <p class="feedback">${feedback}</p>
+          <p class="error">There was an error saving your score. Please try again later.</p>
+          <div class="action-buttons">
+            <a href="/quiz/review/${attemptId}" class="btn review-btn">
+              <i class="fas fa-search"></i> Review Answers
+            </a>
+
+            <a href="/quiz" class="btn play-btn">
+              <i class="fas fa-play-circle"></i> Play Again
+            </a>
+            <a href="/leaderboard" class="btn secondary-btn">
+              <i class="fas fa-trophy"></i> Leaderboard
+            </a>
+          </div>
+        </div>
+      `;
     });
-
-  const feedback = getFeedbackMessage(score, quizData.length);
-
-  const gameContainer = document.getElementById('game');
-  gameContainer.innerHTML = `
-    <div class="results-popup">
-      <h2>Results are in!</h2>
-      <p>🎉 You got ${score} out of ${quizData.length} correct!</p>
-      <p class="feedback">${feedback}</p>
-    <div class="action-buttons">
-      <a href="/quiz" class="btn play-btn">
-        <i class="fas fa-play-circle"></i> Play Again
-      </a>
-      <a href="/leaderboard" class="btn secondary-btn">
-          <i class="fas fa-trophy"></i> Leaderboard
-      </a>
-    </div>
-    </div>
-  `;
 }
+
 
 function getFeedbackMessage(score, total) {
   const percentage = (score / total) * 100;
