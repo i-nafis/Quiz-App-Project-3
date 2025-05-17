@@ -195,12 +195,12 @@ body {
 }
 
 .review-item {
-  border: 1px solid var(--feature-hover-bg);
-  border-radius: 1rem;
-  margin-bottom: 1.5rem;
-  overflow: hidden;
-  background-color: var(--feature-bg);
-  transition: box-shadow 0.3s ease;
+  border: 1px solid rgba(13, 113, 86, 0.5);
+  border-radius: 6px;
+  margin-bottom: 1rem;
+  /* Make sure inner content isn’t clipped */
+  overflow: visible;
+  background-color: var(--card-bg);
 }
 
 .review-item:hover {
