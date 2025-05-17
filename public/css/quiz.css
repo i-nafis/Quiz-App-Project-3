@@ -170,6 +170,187 @@ body {
   margin-bottom: 0;
   line-height: 1.1;
 }
+.review-container {
+  max-width: 1200px; /* 800px */
+  /* Adjust top margin based on your fixed header's height */
+  margin: 10rem auto 3rem;
+  padding: 2rem;
+  background-color: var(--bg-color);
+  box-shadow: 0 0.2rem 0.5rem rgba(0, 0, 0, 0.1);
+  border-radius: 1rem;
+}
+
+.score-summary {
+  margin-bottom: 2.5rem;
+  text-align: center;
+  font-size: 2rem;
+  color: var(--text-color);
+}
+
+.score-summary strong {
+  font-family: 'Nova Square', cursive;
+  font-weight: normal;
+  font-size: 2.2rem;
+  color: var(--primary-color);
+}
+
+.review-item {
+  border: 1px solid var(--feature-hover-bg);
+  border-radius: 1rem;
+  margin-bottom: 1.5rem;
+  overflow: hidden;
+  background-color: var(--feature-bg);
+  transition: box-shadow 0.3s ease;
+}
+
+.review-item:hover {
+  box-shadow: 0 0.4rem 0.8rem rgba(0,0,0,0.07);
+}
+
+.review-item[open] {
+  box-shadow: 0 0.4rem 1rem rgba(0,0,0,0.1);
+}
+
+.review-item summary {
+  padding: 1.2rem 1.5rem;
+  background: transparent;
+  cursor: pointer;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 700;
+  font-size: 1.8rem;
+  display: flex;         /* Key for layout of internal spans */
+  align-items: center;   /* Vertically align items */
+  color: var(--text-color);
+  transition: background-color 0.3s ease;
+  position: relative;
+  overflow: hidden;      /* Safeguard for children */
+}
+
+/* Ensure summary text is readable in light mode on --feature-bg */
+:root.light-mode .review-item summary {
+  color: #333333;
+}
+/* :root.light-mode .review-item summary { color: #222222; } */
+
+
+.review-item summary:hover,
+.review-item[open] summary {
+  background: var(--feature-hover-bg);
+}
+
+/* Custom Arrow Toggler (Flex item part of the summary) */
+.review-item summary::before {
+  content: '▶';
+  font-size: 1rem;
+  margin-right: 1rem; /* Space after arrow */
+  transition: transform 0.3s ease-in-out;
+  color: inherit;
+  display: inline-block;
+  flex-shrink: 0; /* Prevent arrow from shrinking */
+}
+
+.review-item[open] summary::before {
+  transform: rotate(90deg);
+}
+
+/* New styles for controlling question layout within summary */
+.question-number {
+  margin-right: 0.5rem; /* Space after "Q#: " */
+  white-space: nowrap;   /* Keep "Q#: " on one line */
+  flex-shrink: 0;      /* Prevent shrinking */
+}
+
+.question-text-wrapper {
+  flex-grow: 1;          /* Allow question text to take available space */
+  min-width: 0;          /* Crucial for allowing text wrapping in a flex item */
+  word-wrap: break-word; /* Allow long words to break and wrap */
+  /* or overflow-wrap: break-word; */
+  text-align: left;      /* Ensure text aligns left if it wraps */
+}
+
+.status { /* The (✔️ / ❌) icon - Flex item */
+  font-size: 1.6rem;
+  margin-left: 1rem;    /* Space before status icon */
+  white-space: nowrap;  /* Keep icon and parens on one line */
+  flex-shrink: 0;     /* Prevent shrinking */
+}
+/* End of new styles for summary layout */
+
+
+/* Wrapper for animating <details> content */
+.details-content-wrapper {
+  overflow: hidden;
+  transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out, padding 0.3s ease-in-out;
+  max-height: 0;
+  opacity: 0;
+  padding: 0 1.5rem;
+  /* background-color: rgba(0,0,0,0.02); */
+  /* :root.light-mode & { background-color: rgba(255,255,255,0.5); } */
+}
+
+.review-item[open] > .details-content-wrapper {
+  max-height: 60rem;
+  opacity: 1;
+  padding-top: 1rem;
+  padding-bottom: 1.5rem;
+}
+
+.options-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.option {
+  font-family: 'Roboto', sans-serif;
+  font-size: 1.6rem;
+  padding: 1rem 1.2rem;
+  margin-bottom: 0.8rem;
+  border-radius: 0.5rem;
+  border-left: 0.4rem solid transparent;
+  color: var(--text-color);
+  transition: background-color 0.3s ease, border-left-color 0.3s ease, transform 0.3s ease;
+}
+
+:root.light-mode .option {
+  color: #444444;
+}
+
+.option:last-child {
+  margin-bottom: 0;
+}
+
+.option:hover:not(.correct-option):not(.wrong-option) {
+  background-color: var(--feature-hover-bg);
+  /* transform: translateX(0.2rem); */
+}
+
+.option.correct-option {
+  background-color: rgba(31, 195, 151, 0.15);
+  border-left-color: var(--primary-color);
+  color: var(--primary-color);
+  font-weight: 500;
+}
+:root.light-mode .option.correct-option {
+  background-color: rgba(31, 195, 151, 0.2);
+  color: var(--primary-color);
+}
+
+.option.wrong-option {
+  background-color: rgba(255, 107, 107, 0.15);
+  border-left-color: var(--accent-color);
+  color: var(--accent-color);
+  /* text-decoration: line-through; */
+  font-weight: 500;
+}
+:root.light-mode .option.wrong-option {
+  background-color: rgba(255, 107, 107, 0.2);
+  color: var(--accent-color);
+}
+
+/* Status badge styling (color handled by .status directly) */
+.status.correct { color: var(--primary-color); }
+.status.incorrect { color: var(--accent-color); }
 
 @media screen and (max-width: 768px) {
     /* Make sure the overall game container fits the screen */

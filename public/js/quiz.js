@@ -1,13 +1,17 @@
 let currentQuestionIndex = 0;
 let score = 0;
+let userAnswers = {};
 let countdown;
 let timerInterval;
 let timeLeft = 15;
 const totalTime = 15; // Define the total time for reference
 const updateFrequency = 50; // Update every 50ms timer bar
 
+
 document.addEventListener("DOMContentLoaded", () => {
-  showQuestion();
+ 
+      showQuestion(); // Start the quiz if authenticated
+    
 });
 
 function showQuestion() {
@@ -93,7 +97,11 @@ function updateTimerDisplay() {
 function handleAnswer(selectedLetter) {
   const correct = quizData[currentQuestionIndex].answer;
   const choices = document.querySelectorAll(".choice-text");
+  const questionId = `q${currentQuestionIndex}`;
 
+  // Store the user's answer
+  userAnswers[questionId] = selectedLetter;
+  
   // Stop all timers
   clearInterval(countdown);
   clearInterval(timerInterval);
@@ -159,10 +167,30 @@ function triggerConfetti() {
 }
 
 function submitScoreAndRedirect(score) {
+  // Prepare quiz data to be submitted
+  const questionDetails = quizData.map((question, index) => {
+    // Get the user's answer (if any)
+    const userAnswerId = `q${index}`;
+    const userAnswerLetter = userAnswers[userAnswerId] || null;
+    
+    return {
+      questionText: question.question,
+      options: [question.A, question.B, question.C, question.D],
+      userAnswer: userAnswerLetter ? question[userAnswerLetter] : "Not Answered",
+      correctAnswer: question[question.answer],
+      isCorrect: userAnswerLetter === question.answer
+    };
+  });
+
+  // Submit both score and question details
   fetch('/quiz/submit-json', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ score })
+    body: JSON.stringify({ 
+      score: score,
+      questions: questionDetails 
+    }),
+    credentials: 'include'
   })
     .then((res) => res.json())
     .then((data) => {
@@ -209,10 +237,6 @@ function submitScoreAndRedirect(score) {
           <p class="feedback">${feedback}</p>
           <p class="error">There was an error saving your score. Please try again later.</p>
           <div class="action-buttons">
-            <a href="/quiz/review/${attemptId}" class="btn review-btn">
-              <i class="fas fa-search"></i> Review Answers
-            </a>
-
             <a href="/quiz" class="btn play-btn">
               <i class="fas fa-play-circle"></i> Play Again
             </a>

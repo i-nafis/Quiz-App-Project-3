@@ -1,29 +1,29 @@
-// Fixed: authController.js
-const fs = require('fs');
-const path = require('path');
-const bcrypt = require('bcrypt');
+// controllers/authController.js
+const fs      = require('fs');
+const path    = require('path');
+const bcrypt  = require('bcrypt');
+const mongoose = require('mongoose');
 
 const usersFilePath = path.join(__dirname, '../data/users.json');
 
-const readUsers = () => {
+function readUsers() {
   try {
-    const data = fs.readFileSync(usersFilePath, 'utf8');
-    return JSON.parse(data);
-  } catch (err) {
+    return JSON.parse(fs.readFileSync(usersFilePath, 'utf8'));
+  } catch {
     return [];
   }
-};
+}
 
-const writeUsers = (users) => {
+function writeUsers(users) {
   fs.writeFileSync(usersFilePath, JSON.stringify(users, null, 2));
-};
+}
 
-// Render login page
+// Show the login form
 exports.showLogin = (req, res) => {
   res.render('login', { title: 'Login', error: null });
 };
 
-// Handle login
+// Process login submissions
 exports.processLogin = async (req, res) => {
   const { username, password } = req.body;
 
@@ -32,8 +32,7 @@ exports.processLogin = async (req, res) => {
   }
 
   const users = readUsers();
-  const user = users.find(u => u.username === username);
-
+  const user  = users.find(u => u.username === username);
   if (!user) {
     return res.render('login', { title: 'Login', error: 'User not found.' });
   }
@@ -43,24 +42,18 @@ exports.processLogin = async (req, res) => {
     return res.render('login', { title: 'Login', error: 'Incorrect password.' });
   }
 
-  // Simulated _id for session tracking
-  req.session.user = {
-    _id: username, // fake ID
-    username,
-    email: user.email || ''
-  };
-
-  console.log('SESSION SET:', req.session.user); // debug log
-
+  // Must have an actual _id on your user objects!
+  // (See processRegister below for how to generate one.)
+  req.session.user = { _id: user._id, username: user.username };
   res.redirect('/');
 };
 
-// Render register page
+// Show the registration form
 exports.showRegister = (req, res) => {
   res.render('register', { title: 'Register', error: null });
 };
 
-// Handle registration
+// Process registration submissions
 exports.processRegister = async (req, res) => {
   const { username, password, confirmPassword } = req.body;
 
@@ -72,19 +65,22 @@ exports.processRegister = async (req, res) => {
     return res.render('register', { title: 'Register', error: 'Passwords do not match.' });
   }
 
+  // 2) Load and check uniqueness
   const users = readUsers();
   if (users.find(u => u.username === username)) {
     return res.render('register', { title: 'Register', error: 'Username already exists.' });
   }
 
+  // 3) Hash and create new user with a real _id
   const hashedPassword = await bcrypt.hash(password, 10);
-  users.push({ username, password: hashedPassword, email: '' });
+  const newId = new mongoose.Types.ObjectId().toHexString();
+  users.push({ _id: newId, username, password: hashedPassword, email: '' });
   writeUsers(users);
 
   res.redirect('/auth/login');
 };
 
-// Handle logout
+// Log the user out
 exports.logout = (req, res) => {
   req.session.destroy(() => res.redirect('/'));
 };

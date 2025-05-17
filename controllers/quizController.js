@@ -1,45 +1,63 @@
-// Updated quizController.js - Add quiz review functionality
-
+// controllers/quizController.js
+const axios          = require('axios');
 const leaderboardController = require('./leaderboardController');
-const QuizAttempt = require('../models/QuizAttempt'); // Import the QuizAttempt model
+const QuizAttempt    = require('../models/QuizAttempt');
 
-/**
- * Fisher-Yates Shuffle for selecting random questions
- */
-const getRandomQuestions = (questions, num) => {
-  const shuffled = questions.slice();
-  for (let i = shuffled.length - 1; i > 0; i--) {
+const shuffleArray = arr => {
+  for (let i = arr.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
-    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    [arr[i], arr[j]] = [arr[j], arr[i]];
   }
-  return shuffled.slice(0, num);
+  return arr;
 };
 
-exports.showQuiz = (req, res) => {
-  const allQuestions = req.app.locals.quizQuestions;
+exports.showQuiz = async (req, res) => {
+  try {
+    // 1) Build the API URL (you can swap in req.query.category / req.query.amount if you add controls)
+    const amount   = 10;
+    let apiUrl     = `https://opentdb.com/api.php?amount=${amount}&type=multiple`;
 
-  // Prepare questions with option arrays for easier review later
-  const selectedQuestions = getRandomQuestions(allQuestions, 10).map((q, index) => {
-    // Create an options array from properties A, B, C, D
-    const optionLetters = Object.keys(q).filter(key => /^[A-Z]$/.test(key) && key !== 'answer');
-    const options = optionLetters.map(letter => q[letter]);
+    // 2) Fetch from OpenTDB
+    const response = await axios.get(apiUrl);
+    const results  = response.data.results;  // an array of { question, correct_answer, incorrect_answers }
 
-    return {
-      ...q,
-      id: `q${index}`, // ID for form processing
-      options: options, // Store options as array for review
-      optionLetters: optionLetters // Store option letters for reference
-    };
-  });
+    // 3) Transform into your local format
+    const questions = results.map((q, idx) => {
+      // Combine and shuffle options
+      const all = shuffleArray([
+        ...q.incorrect_answers,
+        q.correct_answer
+      ]);
 
-  // Store selected questions in session for processing submissions
-  req.session.selectedQuestions = selectedQuestions;
+      // Assign letter keys A,B,C,D
+      const letters = ['A','B','C','D'];
+      const mapped  = {};
+      let answerKey = '';
+      letters.forEach((L,i) => {
+        mapped[L] = all[i];
+        if (all[i] === q.correct_answer) answerKey = L;
+      });
 
-  res.render('quiz', {
-    title: 'Quiz',
-    questions: selectedQuestions
-  });
+      return {
+        id:            `q${idx}`,
+        question:      q.question,
+        ...mapped,                    // { A: "...", B: "...", C: "...", D: "..." }
+        answer:        answerKey,     // letter of the correct one
+        options:       letters.map(L => mapped[L]),
+        optionLetters: letters
+      };
+    });
+
+    // 4) Store in session and render
+    req.session.selectedQuestions = questions;
+    res.render('quiz', { title: 'Quiz', questions });
+  }
+  catch (err) {
+    console.error('Error loading trivia questions:', err);
+    res.status(500).render('error', { message: 'Could not load quiz questions.' });
+  }
 };
+
 
 exports.processQuiz = async (req, res) => {
   const userAnswers = req.body.answers || {};
@@ -105,7 +123,7 @@ exports.processQuiz = async (req, res) => {
 };
 
 exports.submitScore = async (req, res) => {
-  const { score } = req.body;
+  const { score, questions } = req.body;
 
   // Ensure user is logged in
   if (!req.session.user || !req.session.user._id) {
@@ -113,10 +131,10 @@ exports.submitScore = async (req, res) => {
   }
 
   try {
-    // Create a basic quiz attempt record without detailed questions
+    // Create a quiz attempt record with questions if provided
     const newAttempt = new QuizAttempt({
       user: req.session.user._id,
-      questions: [], // No detailed questions for client-side submissions
+      questions: questions || [], // Use provided questions or empty array
       score: score
     });
     
@@ -135,7 +153,7 @@ exports.submitScore = async (req, res) => {
   }
 };
 
-// New controller function to handle quiz review requests
+// Updated reviewQuiz function
 exports.reviewQuiz = async (req, res) => {
   try {
     const attemptId = req.params.attemptId;
@@ -150,6 +168,10 @@ exports.reviewQuiz = async (req, res) => {
       return res.status(403).render('error', { message: 'You do not have permission to view this quiz attempt' });
     }
 
+    // The attempt object already has the questions array with all the needed info
+    // from how you structured it in processQuiz
+    // We just need to make sure it's passed correctly to the template
+    
     res.render('review', {
       title: 'Quiz Review',
       attempt: attempt

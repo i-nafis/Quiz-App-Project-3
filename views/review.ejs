@@ -1,56 +1,73 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>
+    <%= title %>
+  </title>
+  <link rel="stylesheet" href="/css/style.css" />
+  <link rel="stylesheet" href="/css/quiz.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
 </head>
+
 <body>
-    <%- include('partials/header') %>
-<div class="container">
-  <h1 class="text-center mb-4">Quiz Review</h1>
-  <div class="score-summary mb-4">
-    <h3>Final Score: <span class="highlight"><%= attempt.score %> / <%= attempt.questions.length %></span></h3>
-    <p class="review-timestamp">Completed on: <%= new Date(attempt.submittedAt).toLocaleString() %></p>
-  </div>
-  <div class="review-questions">
-    <% attempt.questions.forEach((question, index) => { %>
-      <div class="card review-question mb-4">
-        <div class="card-header">
-          <h4>Question <%= index + 1 %></h4>
-        </div>
-        <div class="card-body">
-          <h5 class="card-title"><%= question.questionText %></h5>
-      <div class="options-list">
-        <% question.options.forEach((option, optIndex) => { %>
-          <div class="option-item 
-            <%= option === question.correctAnswer ? 'correct-answer' : '' %> 
-            <%= option === question.userAnswer && option !== question.correctAnswer ? 'incorrect-answer' : '' %>">
-            <span class="option-letter"><%= String.fromCharCode(65 + optIndex) %></span>
-            <span class="option-text"><%= option %></span>
-            <% if (option === question.userAnswer && option === question.correctAnswer) { %>
-              <span class="badge correct-badge">✓ Your Answer (Correct)</span>
-            <% } else if (option === question.userAnswer) { %>
-              <span class="badge incorrect-badge">✗ Your Answer</span>
-            <% } else if (option === question.correctAnswer) { %>
-              <span class="badge correct-badge">✓ Correct Answer</span>
-            <% } %>
-          </div>
-        <% }) %>
-      </div>
+  <%- include('partials/header') %>
+
+  <div class="container review-container"> <h1>Quiz Review</h1>
+    <div class="score-summary">
+      <p>You scored <strong><%= attempt.score %> of <%= attempt.questions.length %></strong></p>
     </div>
-  </div>
-<% }) %>
-  </div>
-  <div class="action-buttons text-center mb-5">
-    <a href="/quiz" class="btn play-btn">
-      <i class="fas fa-play-circle"></i> Play Again
-    </a>
-    <a href="/leaderboard" class="btn secondary-btn">
-      <i class="fas fa-trophy"></i> Leaderboard
-    </a>
-  </div>
-</div>
-<%- include('partials/footer') %>
+
+    <% attempt.questions.forEach((question, idx) => { %>
+      <details class="review-item">
+        <summary>
+          <span class="question-number">Q<%= idx + 1 %>:</span>
+          <span class="question-text-wrapper"><%= question.questionText %></span>
+          <span class="status <%= question.isCorrect ? 'correct' : 'incorrect' %>">
+            <% if (question.isCorrect) { %>
+              <i class="fas fa-check-circle"></i> <% } else { %>
+              <i class="fas fa-times-circle"></i> <% } %>
+          </span>
+        </summary>
+
+        <div class="details-content-wrapper">
+          <ul class="options-list">
+            <% question.options.forEach(option => { %>
+              <li
+                class="option
+                       <%= option === question.correctAnswer ? 'correct-option' : '' %>
+                       <%= option === question.userAnswer && option !== question.correctAnswer ? 'wrong-option' : '' %>">
+                <%= option %>
+              </li>
+            <% }) %>
+          </ul>
+        </div>
+      </details>
+    <% }) %>
+
+    <div class="review-actions">
+      <a href="/quiz" class="btn"> <i class="fas fa-redo"></i> Play Again
+      </a>
+      <a href="/leaderboard" class="btn"> <i class="fas fa-trophy"></i> Leaderboard
+      </a>
+    </div>
+    </div> <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const items = document.querySelectorAll('.review-item');
+      items.forEach(item => {
+        item.addEventListener('toggle', () => {
+          if (item.open) {
+            // close all the others
+            items.forEach(other => {
+              if (other !== item) other.open = false;
+            });
+          }
+        });
+      });
+    });
+  </script>
 </body>
+
 </html>

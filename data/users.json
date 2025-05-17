@@ -8,12 +8,8 @@
     "password": "$2b$10$ZveUjOJHTIOeb4QKYx/JBeKvIozGQm9f2iCC2FCv9iiujHIpUZPFy"
   },
   {
+    "_id": "6828e0924eb6be94b6fb7b9e",
     "username": "test",
-    "password": "$2b$10$Y1GJQkNiWiFX95wjWYMckux3zjiSWbRhnRrgec4S5XUqDJnx/ksoi"
-  },
-  {
-    "username": "Rahi",
-    "password": "$2b$10$AYx7iDopikiTgrj7WjxULOGdlS.1cFASCWV9Pni3JoKcawQLoGz8W",
-    "email": ""
+    "password": "$2b$10$UnrETVr/VXh6TVshn4dUIuglhwi9Hf1Rxifa5XhWmHk3Lierql9mC"
   }
 ]

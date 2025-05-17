@@ -46,18 +46,18 @@ app.set('view engine', 'ejs');
 // Logging and body parsing
 app.use(logger('dev'));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+// Serve static files from the 'public' folder.
+app.use(express.static(path.join(__dirname, 'public')));
+
 
 // ✅ Session setup BEFORE routes
 app.use(session({
   secret: 'quiz-app-secret-key',
   resave: false,
   saveUninitialized: false,
-  cookie: {
-    secure: false, // Must be false for localhost
-    maxAge: 24 * 60 * 60 * 1000 // 24 hours
-  }
+  cookie: { secure: process.env.NODE_ENV === 'production', maxAge: 86400000 }
 }));
 
 // ✅ Set user for all views
