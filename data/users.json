@@ -10,5 +10,10 @@
   {
     "username": "test",
     "password": "$2b$10$Y1GJQkNiWiFX95wjWYMckux3zjiSWbRhnRrgec4S5XUqDJnx/ksoi"
+  },
+  {
+    "username": "Rahi",
+    "password": "$2b$10$AYx7iDopikiTgrj7WjxULOGdlS.1cFASCWV9Pni3JoKcawQLoGz8W",
+    "email": ""
   }
 ]

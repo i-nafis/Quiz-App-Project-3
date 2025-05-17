@@ -8,13 +8,16 @@
 <body>
   <div class="container">
     <h1>An Error Occurred</h1>
-    <h2><%= message %></h2>
-    <% if (error.status) { %>
+    <h2><%= (typeof error !== 'undefined' && error.message) ? error.message : 'Something went wrong.' %></h2>
+
+    <% if (typeof error !== 'undefined' && error.status) { %>
       <p>Status Code: <%= error.status %></p>
     <% } %>
-    <% if (error.stack) { %>
+
+    <% if (typeof error !== 'undefined' && error.stack) { %>
       <pre><%= error.stack %></pre>
     <% } %>
+
     <a href="/">Return Home</a>
   </div>
 </body>

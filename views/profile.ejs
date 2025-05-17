@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title><%= title || "Profile" %></title>
+  <link rel="stylesheet" href="/css/leaderboard.css"/>
+  <link rel="stylesheet" href="/css/style.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"/>
+  <style>
+    .scroll-table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    .scroll-wrapper {
+      max-height: 260px;
+      overflow-y: auto;
+      display: block;
+    }
+
+    .scroll-wrapper thead,
+    .scroll-wrapper tbody tr {
+      display: table;
+      width: 100%;
+      table-layout: fixed;
+    }
+
+    .scroll-wrapper thead th {
+      position: sticky;
+      top: 0;
+      background-color: #142f2e;
+      z-index: 1;
+    }
+
+    .scroll-wrapper::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .scroll-wrapper::-webkit-scrollbar-thumb {
+      background-color: #fbfffe;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+  <%- include('partials/header') %>
+
+  <div class="container">
+
+    <!-- Quiz History Title -->
+    <h1 class="text-center"><i class="fas fa-clock"></i> Quiz History</h1>
+
+   <!-- Welcome Message -->
+   <p class="text-center" style="margin-top: -1rem; font-size: 2rem; color: #1FC397">
+    Welcome Back, <%= user.username %>!
+   </p>
+
+    <!-- Quiz Attempt History -->
+    <% if (attempts.length > 0) { %>
+      <div style="max-height: 260px; overflow-y: auto;" class="leaderboard-table">
+  <table style="width: 100%; border-collapse: collapse;">
+    <thead>
+      <tr>
+        <th style="position: sticky; top: 0; background-color: #142f2e; z-index: 10;">
+          Date
+        </th>
+        <th style="position: sticky; top: 0; background-color: #142f2e; z-index: 10;">
+          Score
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <% attempts.forEach(attempt => { %>
+        <tr>
+          <td><%= new Date(attempt.submittedAt).toLocaleString() %></td>
+          <td><%= attempt.score %>/10</td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</div>
+    <% } %>
+
+    <!-- Buttons -->
+    <div class="action-buttons">
+      <a href="/quiz" class="btn play-btn">
+        <i class="fas fa-play-circle"></i> Take Another Quiz
+      </a>
+      <a href="/" class="btn secondary-btn">
+        <i class="fas fa-home"></i> Back to Home
+      </a>
+    </div>
+  </div>
+
+  <script src="/js/home.js"></script>
+</body>
+</html>

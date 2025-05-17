@@ -1,3 +1,4 @@
+// Fixed: authController.js
 const fs = require('fs');
 const path = require('path');
 const bcrypt = require('bcrypt');
@@ -25,12 +26,14 @@ exports.showLogin = (req, res) => {
 // Handle login
 exports.processLogin = async (req, res) => {
   const { username, password } = req.body;
+
   if (!username || !password) {
     return res.render('login', { title: 'Login', error: 'Please enter both username and password.' });
   }
 
   const users = readUsers();
   const user = users.find(u => u.username === username);
+
   if (!user) {
     return res.render('login', { title: 'Login', error: 'User not found.' });
   }
@@ -40,7 +43,15 @@ exports.processLogin = async (req, res) => {
     return res.render('login', { title: 'Login', error: 'Incorrect password.' });
   }
 
-  req.session.user = { username };
+  // Simulated _id for session tracking
+  req.session.user = {
+    _id: username, // fake ID
+    username,
+    email: user.email || ''
+  };
+
+  console.log('SESSION SET:', req.session.user); // debug log
+
   res.redirect('/');
 };
 
@@ -52,9 +63,11 @@ exports.showRegister = (req, res) => {
 // Handle registration
 exports.processRegister = async (req, res) => {
   const { username, password, confirmPassword } = req.body;
+
   if (!username || !password || !confirmPassword) {
     return res.render('register', { title: 'Register', error: 'All fields are required.' });
   }
+
   if (password !== confirmPassword) {
     return res.render('register', { title: 'Register', error: 'Passwords do not match.' });
   }
@@ -65,7 +78,7 @@ exports.processRegister = async (req, res) => {
   }
 
   const hashedPassword = await bcrypt.hash(password, 10);
-  users.push({ username, password: hashedPassword });
+  users.push({ username, password: hashedPassword, email: '' });
   writeUsers(users);
 
   res.redirect('/auth/login');
