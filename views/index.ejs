@@ -8,68 +8,184 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css"
     />
     <link rel="stylesheet" href="/css/style.css" />
+    <title>Quiz Home</title>
+    <style>
+
+      
+      .quiz-home-main-container { 
+        padding-top: 6rem; /* Adjust if your fixed header height is different */
+        padding-bottom: 4rem;
+        max-width: 900px; /* Or your preferred max-width for content pages */
+        margin-left: auto;
+        margin-right: auto;
+        padding-left: 2rem;
+        padding-right: 2rem;
+        margin-top: 180px;
+      }
+
+      /* Header content */
+      .home-header-content { /* Renamed from .home-container to be more specific */
+        text-align: center;
+        margin-bottom: 3rem; /* Increased bottom margin */
+      }
+      .home-header-content h1 {
+        font-size: clamp(3.5rem, 6vw, 5rem); /* Responsive font size */
+        margin-bottom: 1rem; /* Increased margin */
+        /* Inherits font-family: "Nova Square" from style.css h1 */
+      }
+      .home-header-content .tagline {
+        font-size: clamp(1.6rem, 3vw, 2rem); /* Responsive font size */
+        color: var(--primary-light); /* Use a theme color, or a dimmed text-color */
+        /* E.g., color: rgba(241, 241, 241, 0.8); if text-color is #f1f1f1 */
+        font-family: var(--RobotoFont, 'Roboto', sans-serif); /* Ensure consistent font */
+      }
+
+      /* Quiz start form styling */
+      .start-quiz-form-container {
+        display: flex;
+        justify-content: center;
+        margin: 0 auto 3rem;   
+        width: 90%;            
+      }
+    
+      .start-form {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: flex-end; /* Align items to bottom for better look with different label heights */
+        gap: 1.5rem 2rem; /* Row gap, Column gap */
+        background: var(--feature-bg); /* Use theme variable */
+        padding: 2rem 2.5rem; /* Increased padding */
+        border-radius: 1rem; /* Consistent with other theme elements */
+        box-shadow: 0 0.4rem 1rem rgba(0,0,0,0.1); /* Subtle shadow */
+        width: 100%;
+        max-width: 600px; /* Max width for the form itself */
+      }
+      .start-form label {
+        display: flex;
+        flex-direction: column;
+        color: var(--text-color);
+        font-size: 1.4rem; /* Slightly larger for readability */
+        font-family: var(--RobotoFont, 'Roboto', sans-serif);
+        text-align: center;
+      }
+      .start-form select {
+        width: 200px; /* Slightly wider, or consider flex-grow for responsiveness */
+        padding: 0.8rem 1.2rem; /* Increased padding */
+        font-size: 1.4rem; /* Increased font size */
+        font-family: var(--RobotoFont, 'Roboto', sans-serif);
+        border-radius: 0.5rem; /* Softer radius */
+        border: 1px solid var(--feature-hover-bg); /* Subtle border */
+        background-color: var(--bg-color); /* Match background for seamless look */
+        color: var(--text-color);
+        margin-top: 0.5rem;
+        appearance: none; /* Remove default system appearance */
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23${encodeURIComponent(getComputedStyle(document.documentElement).getPropertyValue('--text-color').trim().substring(1))}' width='18px' height='18px'%3E%3Cpath d='M7 10l5 5 5-5H7z'/%3E%3C/svg%3E"); /* Custom arrow */
+        background-repeat: no-repeat;
+        background-position: right 0.8rem center;
+        text-align: center;
+      }
+      :root.light-mode .start-form select { /* Custom arrow for light mode */
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23${encodeURIComponent(getComputedStyle(document.documentElement).getPropertyValue('--text-color').trim().substring(1))}' width='18px' height='18px'%3E%3Cpath d='M7 10l5 5 5-5H7z'/%3E%3C/svg%3E");
+      }
+
+
+      /* Button group (Start & Leaderboard) for logged-in state */
+      .start-form .button-group { /* Target button group within the form */
+        display: flex;
+        gap: 1rem; /* Consistent gap */
+        width: 100%; /* Make button group take full width of its form column */
+        margin-top: 1rem; /* Add some space above the buttons if form elements wrap */
+      }
+      .start-form .button-group .btn { /* More specific selector */
+        flex: 1; /* Make buttons share space equally */
+        /* .btn styles from style.css will apply for color, padding, font etc. */
+        /* Override specific .btn styles if needed for this context: */
+        width: auto; /* Allow flex to control width */
+        padding: 1.2rem 1.5rem; /* Custom padding for these form buttons */
+        font-size: 1.6rem; /* Custom font size */
+        /* The default .btn in style.css has 50px radius, that will apply. */
+      }
+      /* Ensure submit button uses Nova Square from .btn if not an <a> tag */
+      .start-form .button-group button.btn {
+        font-family: "Nova Square", cursive;
+      }
+
+
+      /* Button group for logged-out state */
+      .button-group-logged-out {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 1.5rem; /* Consistent gap */
+        margin-top: 3rem; /* Space above buttons */
+        flex-wrap: wrap;
+      }
+
+
+    </style>
   </head>
   <body>
     <%- include('partials/header') %>
-      <div class="container">
-        <div class="home-container">
-          <h1>Are You Ready?</h1>
-          <p class="tagline">Challenge yourself with our knowledge quiz!</p>
-        </div>
+    <div class="quiz-home-main-container">
+      <div class="home-header-content"> <h1>Are You Ready?</h1>
+        <p class="tagline">Challenge yourself with our knowledge quiz!</p>
+      </div>
 
-          <% if (user) { %>
-          <div class="dropdown-wrapper" style="display: flex; justify-content: center; margin-top: 0.5rem; margin-bottom: 1.5rem;">
-            <form action="/quiz/start" method="POST" class="start-form" id="quizForm" style="display: flex; align-items: center; gap: 1rem;">
-              <label for="numQuestions" style="font-size: 1.5rem; color: white;">Number of Questions:</label>
-              <select name="numQuestions" id="numQuestions" required style="padding: 0.5rem 1rem; font-size: 1.2rem; border-radius: 10px;">
-                <option value="5">5</option>
-                <option value="10" selected>10</option>
-                <option value="15">15</option>
-                <!-- <option value="20">20</option> -->
-                <option value="30">30</option>
-                <!-- <option value="50">50</option> -->
-              </select>
-            </form>
-          </div>
-          <% } %>
+      <% if (user) { %>
+      <div class="start-quiz-form-container"> <form action="/quiz/start" method="POST" class="start-form">
+          <label for="numQuestions">
+            Number of Questions
+            <select name="numQuestions" id="numQuestions" required>
+              <option value="5">5</option>
+              <option value="10" selected>10</option>
+              <option value="15">15</option>
+              <option value="30">30</option>
+            </select>
+          </label>
 
-          <div class="action-buttons">
-            <% if (user) { %>
-              <button type="submit" form="quizForm" class="btn">
-                <i class="fas fa-play-circle"></i> Start Quiz
-              </button>
-              <a href="/leaderboard" class="btn secondary-btn">
-                <i class="fas fa-trophy"></i> Leaderboard
-              </a>
-            <% } else { %>
-              <a href="/auth/login" class="btn login-btn">
-                <i class="fas fa-sign-in-alt"></i> Sign In
-              </a>
-              <a href="/leaderboard" class="btn secondary-btn">
-                <i class="fas fa-trophy"></i> Leaderboard
-              </a>
-            <% } %>
-          </div>
+          <label for="category">
+            Category
+            <select name="category" id="category">
+              <option value="">Any Category</option> <% categories.forEach(cat => { %>
+                <option value="<%=cat.id%>"><%=cat.name%></option>
+              <% }) %>
+            </select>
+          </label>
 
-          <!-- <div class="features">
-            <div class="feature">
-              <i class="fas fa-question-circle"></i>
-              <h3>Challenging Questions</h3>
-              <p>Test your knowledge with our curated quiz questions</p>
-            </div>
-            <div class="feature">
-              <i class="fas fa-stopwatch"></i>
-              <h3>Beat the Clock</h3>
-              <p>Race against time to improve your score</p>
-            </div>
-            <div class="feature">
-              <i class="fas fa-trophy"></i>
-              <h3>Compete & Win</h3>
-              <p>Earn your spot on our global leaderboard</p>
-            </div> -->
+          <div class="button-group">
+            <a href="/leaderboard" class="btn"> <i class="fas fa-trophy"></i> Leaderboard
+            </a>
+            <button type="submit" class="btn">
+              <i class="fas fa-play-circle"></i> Start Quiz
+            </button>
           </div>
-        </div>
+        </form>
+      </div>
+      <% } else { %>
+      <div class="button-group-logged-out">
+        <a href="/auth/login" class="btn login-btn">
+          <i class="fas fa-sign-in-alt"></i> Sign In to Start Quiz
+        </a>
+        <a href="/leaderboard" class="btn">
+          <i class="fas fa-trophy"></i> Leaderboard
+        </a>
+      </div>
+      <% } %>
     </div>
+
     <script src="/js/home.js"></script>
+    <script>
+      function updateSelectArrows() {
+        const selects = document.querySelectorAll('.start-form select');
+        selects.forEach(select => {
+          const textColor = getComputedStyle(document.documentElement).getPropertyValue('--text-color').trim();
+          const encodedColor = encodeURIComponent(textColor.substring(1)); // Remove # and encode
+          select.style.backgroundImage = `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23${encodedColor}' width='18px' height='18px'%3E%3Cpath d='M7 10l5 5 5-5H7z'/%3E%3C/svg%3E")`;
+        });
+      }
+      // Call it on load and potentially if the theme changes via JS
+      document.addEventListener('DOMContentLoaded', updateSelectArrows);
+    </script>
   </body>
 </html>

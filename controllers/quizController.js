@@ -13,13 +13,17 @@ const shuffleArray = arr => {
 
 exports.showQuiz = async (req, res) => {
   try {
-    // 1) Build the API URL (you can swap in req.query.category / req.query.amount if you add controls)
-    const amount   = 10;
-    let apiUrl     = `https://opentdb.com/api.php?amount=${amount}&type=multiple`;
+   // 1) Read amount & category from query‑string (with sane defaults)
+   const amount   = Math.min(Math.max(parseInt(req.query.amount,10) || 10, 1), 50);
+   const category = req.query.category || '';
+
+   // 2) Build the API URL
+   let apiUrl = `https://opentdb.com/api.php?amount=${amount}&type=multiple`;
+   if (category) apiUrl += `&category=${encodeURIComponent(category)}`;
 
     // 2) Fetch from OpenTDB
     const response = await axios.get(apiUrl);
-    const results  = response.data.results;  // an array of { question, correct_answer, incorrect_answers }
+    const results  = response.data.results;
 
     // 3) Transform into your local format
     const questions = results.map((q, idx) => {
@@ -122,6 +126,18 @@ exports.processQuiz = async (req, res) => {
   }
 };
 
+exports.showQuizForm = async (req, res) => {
+  try {
+    const { data } = await axios.get('https://opentdb.com/api_category.php');
+    res.render('index', {
+      categories: data.trivia_categories,
+      user:       req.session.user
+    });
+  } catch (err) {
+    console.error('Error loading categories:', err);
+    res.status(500).render('error', { message: 'Could not load quiz categories.' });
+  }
+};
 exports.submitScore = async (req, res) => {
   const { score, questions } = req.body;
 

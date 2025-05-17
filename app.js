@@ -1,58 +1,39 @@
-// Fixed app.js with proper session ordering and middleware
 require('dotenv').config();
-const express = require('express');
-const path = require('path');
-const cookieParser = require('cookie-parser');
-const session = require('express-session');
-const logger = require('morgan');
-const fs = require('fs');
-const mongoose = require('mongoose');
+const express       = require('express');
+const path          = require('path');
+const cookieParser  = require('cookie-parser');
+const session       = require('express-session');
+const logger        = require('morgan');
+const mongoose      = require('mongoose');
 
 // Route modules
-const indexRoutes = require('./routes/index');
-const quizRoutes = require('./routes/quiz');
-const authRoutes = require('./routes/auth');
-const leaderboardRoutes = require('./routes/leaderboard');
-const profileRoutes = require('./routes/profile');
+const quizController     = require('./controllers/quizController');
+const authRoutes         = require('./routes/auth');
+const profileRoutes      = require('./routes/profile');
+const quizRoutes         = require('./routes/quiz');
+const leaderboardRoutes  = require('./routes/leaderboard');
+const authMiddleware     = require('./middleware/authMiddleware');
 
-// Middleware
-const authMiddleware = require('./middleware/authMiddleware');
-
-// Express app
 const app = express();
 
-// MongoDB connection
-mongoose.connect(process.env.MONGO_URI)
+// ─── 1) CONNECT TO MONGODB ───────────────────────────────────────────────
+mongoose
+  .connect(process.env.MONGO_URI)
   .then(() => console.log('✅ Connected to MongoDB'))
-  .catch((err) => console.error('❌ MongoDB connection error:', err));
+  .catch(err => console.error('❌ MongoDB connection error:', err));
 
-// Load quiz data
-let quizQuestions = [];
-try {
-  const data = fs.readFileSync(path.join(__dirname, 'data', 'questions.json'), 'utf8');
-  quizQuestions = JSON.parse(data);
-  console.log(`📚 Loaded ${quizQuestions.length} quiz questions`);
-} catch (err) {
-  console.error('Error loading quiz questions:', err);
-}
-
-// Make quiz data globally available to EJS views
-app.locals.quizQuestions = quizQuestions;
-
-// View engine setup
+// ─── 2) VIEW ENGINE ───────────────────────────────────────────────────────
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-// Logging and body parsing
+// ─── 3) MIDDLEWARE ────────────────────────────────────────────────────────
+// a) Logging & body‑parsing
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-// Serve static files from the 'public' folder.
-app.use(express.static(path.join(__dirname, 'public')));
 
-
-// ✅ Session setup BEFORE routes
+// b) Session (must come *before* any route needing `req.session`)
 app.use(session({
   secret: 'quiz-app-secret-key',
   resave: false,
@@ -60,34 +41,38 @@ app.use(session({
   cookie: { secure: process.env.NODE_ENV === 'production', maxAge: 86400000 }
 }));
 
-// ✅ Set user for all views
+// c) Expose `user` to all views
 app.use((req, res, next) => {
   res.locals.user = req.session.user || null;
   next();
 });
 
-// Static files
+// d) Static files (only once!)
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Routes
-app.use('/', indexRoutes);
-app.use('/auth', authRoutes);
+// ─── 4) ROUTES ────────────────────────────────────────────────────────────
+// Root – shows your index.ejs form to pick # of questions & category
+app.get('/', quizController.showQuizForm);
+
+// Auth & profile (no change)
+app.use('/auth',    authRoutes);
 app.use('/profile', profileRoutes);
+
+// Quiz (protected)
 app.use('/quiz', authMiddleware.requireAuth, quizRoutes);
+
+// Leaderboard
 app.use('/leaderboard', leaderboardRoutes);
 
-// 404 handler
+// ─── 5) 404 & ERROR HANDLERS ─────────────────────────────────────────────
 app.use((req, res) => {
-  res.status(404).render('error', { title: 'Page Not Found', error: { message: 'Page Not Found', status: 404 } });
+  res.status(404).render('error', { title: '404', error: { message: 'Page Not Found', status: 404 } });
 });
 
-// Global error handler
 app.use((err, req, res, next) => {
   res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
-  res.status(err.status || 500);
-  res.render('error', { title: 'Error', error: err });
+  res.locals.error   = req.app.get('env') === 'development' ? err : {};
+  res.status(err.status || 500).render('error', { title: 'Error', error: err });
 });
 
-// Export the app for bin/www
 module.exports = app;
