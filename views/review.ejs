@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <%- include('partials/header') %>
+<div class="container">
+  <h1 class="text-center mb-4">Quiz Review</h1>
+  <div class="score-summary mb-4">
+    <h3>Final Score: <span class="highlight"><%= attempt.score %> / <%= attempt.questions.length %></span></h3>
+    <p class="review-timestamp">Completed on: <%= new Date(attempt.submittedAt).toLocaleString() %></p>
+  </div>
+  <div class="review-questions">
+    <% attempt.questions.forEach((question, index) => { %>
+      <div class="card review-question mb-4">
+        <div class="card-header">
+          <h4>Question <%= index + 1 %></h4>
+        </div>
+        <div class="card-body">
+          <h5 class="card-title"><%= question.questionText %></h5>
+      <div class="options-list">
+        <% question.options.forEach((option, optIndex) => { %>
+          <div class="option-item 
+            <%= option === question.correctAnswer ? 'correct-answer' : '' %> 
+            <%= option === question.userAnswer && option !== question.correctAnswer ? 'incorrect-answer' : '' %>">
+            <span class="option-letter"><%= String.fromCharCode(65 + optIndex) %></span>
+            <span class="option-text"><%= option %></span>
+            <% if (option === question.userAnswer && option === question.correctAnswer) { %>
+              <span class="badge correct-badge">✓ Your Answer (Correct)</span>
+            <% } else if (option === question.userAnswer) { %>
+              <span class="badge incorrect-badge">✗ Your Answer</span>
+            <% } else if (option === question.correctAnswer) { %>
+              <span class="badge correct-badge">✓ Correct Answer</span>
+            <% } %>
+          </div>
+        <% }) %>
+      </div>
+    </div>
+  </div>
+<% }) %>
+  </div>
+  <div class="action-buttons text-center mb-5">
+    <a href="/quiz" class="btn play-btn">
+      <i class="fas fa-play-circle"></i> Play Again
+    </a>
+    <a href="/leaderboard" class="btn secondary-btn">
+      <i class="fas fa-trophy"></i> Leaderboard
+    </a>
+  </div>
+</div>
+<%- include('partials/footer') %>
+</body>
+</html>
