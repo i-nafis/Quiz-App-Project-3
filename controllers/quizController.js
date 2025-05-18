@@ -1,7 +1,7 @@
 // controllers/quizController.js
-const axios          = require('axios');
+const axios = require('axios');
 const leaderboardController = require('./leaderboardController');
-const QuizAttempt    = require('../models/QuizAttempt');
+const QuizAttempt = require('../models/QuizAttempt');
 
 const shuffleArray = arr => {
   for (let i = arr.length - 1; i > 0; i--) {
@@ -13,17 +13,23 @@ const shuffleArray = arr => {
 
 exports.showQuiz = async (req, res) => {
   try {
-   // 1) Read amount & category from query‑string (with sane defaults)
-   const amount   = Math.min(Math.max(parseInt(req.query.amount,10) || 10, 1), 50);
-   const category = req.query.category || '';
+    // 1) Read amount & category from query‑string (with sane defaults)
+    const amount = Math.min(
+      Math.max(
+        parseInt(req.body.numQuestions, 10) || 10,
+        1
+      ),
+      50
+    );
+    const category = req.body.category || '';
 
-   // 2) Build the API URL
-   let apiUrl = `https://opentdb.com/api.php?amount=${amount}&type=multiple`;
-   if (category) apiUrl += `&category=${encodeURIComponent(category)}`;
+    // 2) Build the API URL
+    let apiUrl = `https://opentdb.com/api.php?amount=${amount}&type=multiple`;
+    if (category) apiUrl += `&category=${encodeURIComponent(category)}`;
 
     // 2) Fetch from OpenTDB
     const response = await axios.get(apiUrl);
-    const results  = response.data.results;
+    const results = response.data.results;
 
     // 3) Transform into your local format
     const questions = results.map((q, idx) => {
@@ -34,20 +40,20 @@ exports.showQuiz = async (req, res) => {
       ]);
 
       // Assign letter keys A,B,C,D
-      const letters = ['A','B','C','D'];
-      const mapped  = {};
+      const letters = ['A', 'B', 'C', 'D'];
+      const mapped = {};
       let answerKey = '';
-      letters.forEach((L,i) => {
+      letters.forEach((L, i) => {
         mapped[L] = all[i];
         if (all[i] === q.correct_answer) answerKey = L;
       });
 
       return {
-        id:            `q${idx}`,
-        question:      q.question,
+        id: `q${idx}`,
+        question: q.question,
         ...mapped,                    // { A: "...", B: "...", C: "...", D: "..." }
-        answer:        answerKey,     // letter of the correct one
-        options:       letters.map(L => mapped[L]),
+        answer: answerKey,     // letter of the correct one
+        options: letters.map(L => mapped[L]),
         optionLetters: letters
       };
     });
@@ -84,7 +90,7 @@ exports.processQuiz = async (req, res) => {
   selectedQuestions.forEach((question) => {
     const userAnswerLetter = userAnswers[question.id];
     const isCorrect = userAnswerLetter === question.answer;
-    
+
     if (isCorrect) score++;
 
     // Prepare question details for the attempt model
@@ -131,7 +137,7 @@ exports.showQuizForm = async (req, res) => {
     const { data } = await axios.get('https://opentdb.com/api_category.php');
     res.render('index', {
       categories: data.trivia_categories,
-      user:       req.session.user
+      user: req.session.user
     });
   } catch (err) {
     console.error('Error loading categories:', err);
@@ -153,15 +159,15 @@ exports.submitScore = async (req, res) => {
       questions: questions || [], // Use provided questions or empty array
       score: score
     });
-    
+
     const savedAttempt = await newAttempt.save();
-    
+
     // Update leaderboard
     leaderboardController.addScore(req.session.user.username, score);
 
-    res.status(200).json({ 
-      message: "Score submitted successfully", 
-      attemptId: savedAttempt._id 
+    res.status(200).json({
+      message: "Score submitted successfully",
+      attemptId: savedAttempt._id
     });
   } catch (err) {
     console.error("Error saving score:", err);
@@ -187,7 +193,7 @@ exports.reviewQuiz = async (req, res) => {
     // The attempt object already has the questions array with all the needed info
     // from how you structured it in processQuiz
     // We just need to make sure it's passed correctly to the template
-    
+
     res.render('review', {
       title: 'Quiz Review',
       attempt: attempt

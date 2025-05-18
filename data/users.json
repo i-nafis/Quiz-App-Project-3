@@ -1,15 +1,14 @@
 [
   {
-    "username": "hello",
-    "password": "$2b$10$u5JqJs4Fk2VDsRcpNb2nJulMGIOBMRsm.p6npPWVrYHkxFJulBjb2"
-  },
-  {
-    "username": "as2",
-    "password": "$2b$10$ZveUjOJHTIOeb4QKYx/JBeKvIozGQm9f2iCC2FCv9iiujHIpUZPFy"
-  },
-  {
     "_id": "6828e0924eb6be94b6fb7b9e",
     "username": "test",
-    "password": "$2b$10$UnrETVr/VXh6TVshn4dUIuglhwi9Hf1Rxifa5XhWmHk3Lierql9mC"
+    "password": "$2b$10$UnrETVr/VXh6TVshn4dUIuglhwi9Hf1Rxifa5XhWmHk3Lierql9mC",
+    "email":""
+  },
+  {
+    "_id": "6829221fee44e385130d208d",
+    "username": "nafis",
+    "password": "$2b$10$K..zhSiRCK.LXnqpTb/fXutYxRiQE1LcW.FW6tpIQZWT2.PxZpHMu",
+    "email": ""
   }
 ]

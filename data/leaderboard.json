@@ -11,7 +11,7 @@
   },
   {
     "username": "test",
-    "score": 6,
+    "score": 8,
     "date": "2025-04-09T21:22:23.686Z"
   },
   {
@@ -28,5 +28,10 @@
     "username": "Rahi",
     "score": 10,
     "date": "2025-05-17T20:19:21.554Z"
+  },
+  {
+    "username": "nafis",
+    "score": 1,
+    "date": "2025-05-17T23:56:43.864Z"
   }
 ]

@@ -45,7 +45,7 @@
         display: flex;
         justify-content: center;
         margin: 0 auto 3rem;   
-        width: 90%;            
+        width: 100%;   
       }
     
       .start-form {
@@ -68,6 +68,7 @@
         font-size: 1.4rem; /* Slightly larger for readability */
         font-family: var(--RobotoFont, 'Roboto', sans-serif);
         text-align: center;
+        padding: 10px;
       }
       .start-form select {
         width: 200px; /* Slightly wider, or consider flex-grow for responsiveness */
@@ -93,9 +94,9 @@
       /* Button group (Start & Leaderboard) for logged-in state */
       .start-form .button-group { /* Target button group within the form */
         display: flex;
-        gap: 1rem; /* Consistent gap */
+        gap: 2rem; /* Consistent gap */
         width: 100%; /* Make button group take full width of its form column */
-        margin-top: 1rem; /* Add some space above the buttons if form elements wrap */
+        margin-top: 2rem; /* Add some space above the buttons if form elements wrap */
       }
       .start-form .button-group .btn { /* More specific selector */
         flex: 1; /* Make buttons share space equally */
