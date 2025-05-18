@@ -14,13 +14,8 @@ const shuffleArray = arr => {
 exports.showQuiz = async (req, res) => {
   try {
     // 1) Read amount & category from query‑string (with sane defaults)
-    const amount = Math.min(
-      Math.max(
-        parseInt(req.body.numQuestions, 10) || 10,
-        1
-      ),
-      50
-    );
+    const amount = Math.min(Math.max(parseInt(req.body.numQuestions, 10) || 10,1),50);
+    req.session.quizMode = amount;
     const category = req.body.category || '';
 
     // 2) Build the API URL
@@ -108,13 +103,14 @@ exports.processQuiz = async (req, res) => {
     const newAttempt = new QuizAttempt({
       user: req.session.user._id,
       questions: questionDetails,
-      score: score
+      score: score,
+      mode: req.session.quizMode
     });
 
     const savedAttempt = await newAttempt.save();
 
     // Update leaderboard if necessary
-    leaderboardController.addScore(req.session.user.username, score);
+    leaderboardController.addScore(req.session.user.username, score, req.session.quizMode);
 
     // Clean up session
     delete req.session.selectedQuestions;
@@ -144,6 +140,7 @@ exports.showQuizForm = async (req, res) => {
     res.status(500).render('error', { message: 'Could not load quiz categories.' });
   }
 };
+
 exports.submitScore = async (req, res) => {
   const { score, questions } = req.body;
 
@@ -157,13 +154,14 @@ exports.submitScore = async (req, res) => {
     const newAttempt = new QuizAttempt({
       user: req.session.user._id,
       questions: questions || [], // Use provided questions or empty array
-      score: score
+      score: score,
+      mode: req.session.quizMode
     });
 
     const savedAttempt = await newAttempt.save();
 
     // Update leaderboard
-    leaderboardController.addScore(req.session.user.username, score);
+    leaderboardController.addScore(req.session.user.username, score, req.session.quizMode);
 
     res.status(200).json({
       message: "Score submitted successfully",

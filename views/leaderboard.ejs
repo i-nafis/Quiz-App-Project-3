@@ -13,41 +13,47 @@
   <div class="container">
     <h1 class="text-center"><i class="fas fa-trophy"></i> Leaderboard</h1>
     
-    <% if (entries && entries.length > 0) { %>
+  <% if (groupedEntries && Object.keys(groupedEntries).length > 0) { %>
+    <% Object.keys(groupedEntries).sort((a, b) => a - b).forEach(questionCount => { %>
+      <h2 class="group-heading"><%= questionCount %> Question<%= questionCount > 1 ? 's' : '' %> Mode</h2>
       <table class="leaderboard-table">
-        <thead>
-          <tr>
-            <th>Rank</th>
-            <th>Username</th>
-            <th>Score</th>
+      <thead>
+        <tr>
+          <th>Rank</th>
+          <th>Username</th>
+          <th>Score</th>
+          <th>Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% groupedEntries[questionCount].forEach((entry, index) => { %>
+          <tr<% if (user && user.username === entry.username) { %> class="highlight-user"<% } %>>
+            <td>
+              <% if (index === 0) { %>
+                <i class="fas fa-medal" style="color: gold;"></i>
+              <% } else if (index === 1) { %>
+                <i class="fas fa-medal" style="color: silver;"></i>
+              <% } else if (index === 2) { %>
+                <i class="fas fa-medal" style="color: #cd7f32;"></i>
+              <% } else { %>
+                <%= index + 1 %>
+              <% } %>
+            </td>
+            <td><%= entry.username %></td>
+            <td><%= entry.score %></td>
+            <td><%= new Date(entry.date).toLocaleString() %></td>
           </tr>
-        </thead>
-        <tbody>
-          <% entries.forEach((entry, index) => { %>
-            <tr<% if (user && user.username === entry.username) { %> class="highlight-user"<% } %>>
-              <td>
-                <% if (index === 0) { %>
-                  <i class="fas fa-medal" style="color: gold;"></i>
-                <% } else if (index === 1) { %>
-                  <i class="fas fa-medal" style="color: silver;"></i>
-                <% } else if (index === 2) { %>
-                  <i class="fas fa-medal" style="color: #cd7f32;"></i>
-                <% } else { %>
-                  <%= index + 1 %>
-                <% } %>
-              </td>
-              <td><%= entry.username %></td>
-              <td><%= entry.score %></td>
-            </tr>
-          <% }) %>
-        </tbody>
+        <% }) %>
+      </tbody>
       </table>
-    <% } else { %>
-      <div class="empty-state">
-        <i class="fas fa-chart-bar empty-icon"></i>
-        <p class="text-center">No scores yet. Be the first to take the quiz!</p>
-      </div>
-    <% } %>
+    <% }) %>
+  <% } else { %>
+    <div class="empty-state">
+      <i class="fas fa-chart-bar empty-icon"></i>
+      <p class="text-center">No scores yet. Be the first to take the quiz!</p>
+    </div>
+  <% } %>
+
     
     <div class="action-buttons">
       <a href="/quiz" class="btn play-btn">

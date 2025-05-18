@@ -24,13 +24,25 @@ const writeLeaderboard = (data) => {
 exports.getLeaderboard = (req, res) => {
   const leaderboard = readLeaderboard();
 
-  // Sort by highest score
-  leaderboard.sort((a, b) => b.score - a.score);
+  // group by which mode user chose
+  const grouped = {};
 
-  // Render the view and pass the sorted list
+  leaderboard.forEach(entry => {
+    const key = entry.totalQuestions;
+    if (!grouped[key]) {
+      grouped[key] = [];
+    }
+    grouped[key].push(entry);
+  });
+
+  // sort groups in descending order
+  Object.keys(grouped).forEach(key => {
+    grouped[key].sort((a, b) => b.score - a.score);
+  });
+
   res.render('leaderboard', {
     title: 'Leaderboard',
-    entries: leaderboard
+    groupedEntries: grouped
   });
 };
 
@@ -38,12 +50,12 @@ exports.getLeaderboard = (req, res) => {
  * POST /quiz/submit-json
  * Called from frontend to save score.
  */
-exports.addScore = (username, score) => {
+exports.addScore = (username, score, mode) => {
   let leaderboard = readLeaderboard();
-  console.log("🏁 addScore() called for:", username, score);
+  console.log("🏁 addScore() called for:", username, score, mode);
   console.log("📋 Current leaderboard before:", leaderboard);
 
-  const existingIndex = leaderboard.findIndex(entry => entry.username === username);
+  const existingIndex = leaderboard.findIndex(entry => entry.username === username && entry.mode == mode);
 
   if (existingIndex >= 0) {
     if (score > leaderboard[existingIndex].score) {
