@@ -24,7 +24,7 @@
       <details class="review-item">
         <summary>
           <span class="question-number">Q<%= idx + 1 %>:</span>
-          <span class="question-text-wrapper"><%= question.questionText %></span>
+          <span class="question-text-wrapper"><%- question.questionText %></span>
           <span class="status <%= question.isCorrect ? 'correct' : 'incorrect' %>">
             <% if (question.isCorrect) { %>
               <i class="fas fa-check-circle"></i> <% } else { %>

@@ -27,13 +27,13 @@ function showQuestion() {
   resetTimer();
 
   // Display question text
-  document.getElementById("question").textContent = question.question;
+  document.getElementById("question").textContent = decodeHTMLEntities(question.question);
 
   // Display choices
-  document.getElementById("choiceA").textContent = question.A;
-  document.getElementById("choiceB").textContent = question.B;
-  document.getElementById("choiceC").textContent = question.C;
-  document.getElementById("choiceD").textContent = question.D;
+  document.getElementById("choiceA").textContent = decodeHTMLEntities(question.A);
+  document.getElementById("choiceB").textContent = decodeHTMLEntities(question.B);
+  document.getElementById("choiceC").textContent = decodeHTMLEntities(question.C);
+  document.getElementById("choiceD").textContent = decodeHTMLEntities(question.D);
 
   // Attach click handlers to each choice
   document.querySelectorAll(".choice-text").forEach((choice) => {
@@ -94,6 +94,16 @@ function updateTimerDisplay() {
   }
 }
 
+// Helper function to decode HTML entities
+function decodeHTMLEntities(text) {
+  const txt = document.createElement("textarea");
+  txt.innerHTML = text;
+  return txt.value;
+}
+
+questionElement.innerText = decodeHTMLEntities(currentQuestion.question);
+
+
 function handleAnswer(selectedLetter) {
   const correct = quizData[currentQuestionIndex].answer;
   const choices = document.querySelectorAll(".choice-text");
@@ -129,7 +139,7 @@ function handleAnswer(selectedLetter) {
   if (selectedLetter === correct) {
     score++;
     document.getElementById("score").textContent = score;
-    feedback.textContent = "✅ Correct!";
+    // feedback.textContent = "✅ Correct!";
 
     // 🎉 New Confetti
     confetti({
