@@ -13,7 +13,7 @@
         <% if (user) { %>
           <div class="user-nav">
             <li class="user-info">
-              <span><a href="/views/profile.ejs" class="nav-link"><i class="fas fa-id-badge"></i> <%= user.username %> </a></i></span>
+              <span><a href="/profile" class="nav-link"><i class="fas fa-id-badge"></i> <%= user.username %> </a></span>
             </li>
             <li>
               <a href="/auth/logout" class="nav-link logout"><i class="fas fa-sign-out-alt"></i> Logout</a>

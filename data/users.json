@@ -3,12 +3,18 @@
     "_id": "6828e0924eb6be94b6fb7b9e",
     "username": "test",
     "password": "$2b$10$UnrETVr/VXh6TVshn4dUIuglhwi9Hf1Rxifa5XhWmHk3Lierql9mC",
-    "email":""
+    "email": ""
   },
   {
     "_id": "6829221fee44e385130d208d",
     "username": "nafis",
     "password": "$2b$10$K..zhSiRCK.LXnqpTb/fXutYxRiQE1LcW.FW6tpIQZWT2.PxZpHMu",
+    "email": ""
+  },
+  {
+    "_id": "68292a35e4607c7e54418c50",
+    "username": "Rahi",
+    "password": "$2b$10$UPbu35brZZrMOhj//.bAqOj4c9g96VaSwF5gOYLYG608yBTxR6IQG",
     "email": ""
   }
 ]

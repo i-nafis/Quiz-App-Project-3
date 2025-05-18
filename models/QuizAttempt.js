@@ -1,11 +1,10 @@
-// ✅ Fixed models/QuizAttempt.js
+// ✅ Updated QuizAttempt.js to use string user ID (not ObjectId)
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const QuizAttemptSchema = new mongoose.Schema({
     user: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
+      type: String, // store user._id as string from users.json
       required: true
     },
     questions: [{
@@ -20,6 +19,6 @@ const QuizAttemptSchema = new mongoose.Schema({
       type: Date,
       default: Date.now
     }
-  });
+});
 
-module.exports = mongoose.model('QuizAttempt', QuizAttemptSchema); 
+module.exports = mongoose.model('QuizAttempt', QuizAttemptSchema);
