@@ -140,15 +140,6 @@ footer {
   margin-top: 2rem;
 }
 
-.play-btn {
-  background: linear-gradient(90deg, var(--primary-color) 0%, #27ae60 100%);
-  margin-bottom: 1rem;
-}
-
-.play-btn:hover {
-  background: linear-gradient(90deg, #27ae60 0%, var(--primary-color) 100%);
-}
-
 .secondary-btn {
   background-color: transparent;
   border: 2px solid var(--primary-color);

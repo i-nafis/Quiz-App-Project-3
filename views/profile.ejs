@@ -8,6 +8,10 @@
   <link rel="stylesheet" href="/css/style.css"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"/>
   <style>
+    .text-center {
+      margin-bottom: 35px;
+    }
+
     .scroll-table {
       border-collapse: collapse;
       width: 100%;
@@ -51,10 +55,10 @@
     <!-- Quiz History Title -->
     <h1 class="text-center"><i class="fas fa-clock"></i> Quiz History</h1>
 
-   <!-- Welcome Message -->
+   <!-- Welcome Message
    <p class="text-center" style="margin-top: -1rem; font-size: 2rem; color: #1FC397">
-    Welcome Back, <%= user.username %>!
-   </p>
+    <%= user.username %>'s
+   </p> -->
 
     <!-- Quiz Attempt History -->
     <% if (attempts.length > 0) { %>

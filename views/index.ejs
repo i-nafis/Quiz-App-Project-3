@@ -1,178 +1,228 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css"
-    />
-    <link rel="stylesheet" href="/css/style.css" />
-    <title>Quiz Home</title>
-    <style>
 
-      
-      .quiz-home-main-container { 
-        padding-top: 6rem; /* Adjust if your fixed header height is different */
-        padding-bottom: 4rem;
-        max-width: 900px; /* Or your preferred max-width for content pages */
-        margin-left: auto;
-        margin-right: auto;
-        padding-left: 2rem;
-        padding-right: 2rem;
-        margin-top: 180px;
-      }
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css" />
+  <link rel="stylesheet" href="/css/style.css" />
+  <title>Quiz Home</title>
+  <style>
+    .quiz-home-main-container {
+      padding-top: 6rem;
+      /* Adjust if your fixed header height is different */
+      padding-bottom: 4rem;
+      max-width: 900px;
+      /* Or your preferred max-width for content pages */
+      margin-left: auto;
+      margin-right: auto;
+      padding-left: 2rem;
+      padding-right: 2rem;
+      margin-top: 220px;
+    }
 
-      /* Header content */
-      .home-header-content { /* Renamed from .home-container to be more specific */
-        text-align: center;
-        margin-bottom: 3rem; /* Increased bottom margin */
-      }
-      .home-header-content h1 {
-        font-size: clamp(3.5rem, 6vw, 5rem); /* Responsive font size */
-        margin-bottom: 1rem; /* Increased margin */
-        /* Inherits font-family: "Nova Square" from style.css h1 */
-      }
-      .home-header-content .tagline {
-        font-size: clamp(1.6rem, 3vw, 2rem); /* Responsive font size */
-        color: var(--primary-light); /* Use a theme color, or a dimmed text-color */
-        /* E.g., color: rgba(241, 241, 241, 0.8); if text-color is #f1f1f1 */
-        font-family: var(--RobotoFont, 'Roboto', sans-serif); /* Ensure consistent font */
-      }
+    /* Header content */
+    .home-header-content {
+      /* Renamed from .home-container to be more specific */
+      text-align: center;
+      margin-bottom: 3rem;
+      /* Increased bottom margin */
+    }
 
-      /* Quiz start form styling */
-      .start-quiz-form-container {
-        display: flex;
-        justify-content: center;
-        margin: 0 auto 3rem;   
-        width: 100%;   
-      }
-    
-      .start-form {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        align-items: flex-end; /* Align items to bottom for better look with different label heights */
-        gap: 1.5rem 2rem; /* Row gap, Column gap */
-        background: var(--feature-bg); /* Use theme variable */
-        padding: 2rem 2.5rem; /* Increased padding */
-        border-radius: 1rem; /* Consistent with other theme elements */
-        box-shadow: 0 0.4rem 1rem rgba(0,0,0,0.1); /* Subtle shadow */
-        width: 100%;
-        max-width: 600px; /* Max width for the form itself */
-      }
-      .start-form label {
-        display: flex;
-        flex-direction: column;
-        color: var(--text-color);
-        font-size: 1.4rem; /* Slightly larger for readability */
-        font-family: var(--RobotoFont, 'Roboto', sans-serif);
-        text-align: center;
-        padding: 10px;
-      }
-      .start-form select {
-        width: 200px; /* Slightly wider, or consider flex-grow for responsiveness */
-        padding: 0.8rem 1.2rem; /* Increased padding */
-        font-size: 1.4rem; /* Increased font size */
-        font-family: var(--RobotoFont, 'Roboto', sans-serif);
-        border-radius: 0.5rem; /* Softer radius */
-        border: 1px solid var(--feature-hover-bg); /* Subtle border */
-        background-color: var(--bg-color); /* Match background for seamless look */
-        color: var(--text-color);
-        margin-top: 0.5rem;
-        appearance: none; /* Remove default system appearance */
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23${encodeURIComponent(getComputedStyle(document.documentElement).getPropertyValue('--text-color').trim().substring(1))}' width='18px' height='18px'%3E%3Cpath d='M7 10l5 5 5-5H7z'/%3E%3C/svg%3E"); /* Custom arrow */
-        background-repeat: no-repeat;
-        background-position: right 0.8rem center;
-        text-align: center;
-      }
-      :root.light-mode .start-form select { /* Custom arrow for light mode */
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23${encodeURIComponent(getComputedStyle(document.documentElement).getPropertyValue('--text-color').trim().substring(1))}' width='18px' height='18px'%3E%3Cpath d='M7 10l5 5 5-5H7z'/%3E%3C/svg%3E");
-      }
+    .home-header-content h1 {
+      font-size: clamp(3.5rem, 6vw, 5rem);
+      /* Responsive font size */
+      margin-bottom: 1rem;
+      /* Increased margin */
+      /* Inherits font-family: "Nova Square" from style.css h1 */
+    }
 
+    .home-header-content .tagline {
+      padding: 10px;
+      /* E.g., color: rgba(241, 241, 241, 0.8); if text-color is #f1f1f1 */
+      font-family: var(--RobotoFont, 'Roboto', sans-serif);
+      /* Ensure consistent font */
+    }
 
-      /* Button group (Start & Leaderboard) for logged-in state */
-      .start-form .button-group { /* Target button group within the form */
-        display: flex;
-        gap: 2rem; /* Consistent gap */
-        width: 100%; /* Make button group take full width of its form column */
-        margin-top: 2rem; /* Add some space above the buttons if form elements wrap */
-      }
-      .start-form .button-group .btn { /* More specific selector */
-        flex: 1; /* Make buttons share space equally */
-        /* .btn styles from style.css will apply for color, padding, font etc. */
-        /* Override specific .btn styles if needed for this context: */
-        width: auto; /* Allow flex to control width */
-        padding: 1.2rem 1.5rem; /* Custom padding for these form buttons */
-        font-size: 1.6rem; /* Custom font size */
-        /* The default .btn in style.css has 50px radius, that will apply. */
-      }
-      /* Ensure submit button uses Nova Square from .btn if not an <a> tag */
-      .start-form .button-group button.btn {
-        font-family: "Nova Square", cursive;
-      }
+    /* Quiz start form styling */
+    .start-quiz-form-container {
+      display: flex;
+      justify-content: center;
+      margin: 0 auto 3rem;
+      width: 100%;
+    }
 
+    .start-form {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: flex-end;
+      /* Align items to bottom for better look with different label heights */
+      gap: 1.5rem 2rem;
+      /* Row gap, Column gap */
+      /* background: var(--feature-bg); Use theme variable */
+      padding: 2rem 2.5rem;
+      /* Increased padding */
+      border-radius: 1rem;
+      /* Consistent with other theme elements */
+      box-shadow: 0 0.4rem 1rem rgba(0, 0, 0, 0.1);
+      /* Subtle shadow */
+      width: 100%;
+      max-width: 600px;
+      /* Max width for the form itself */
+    }
 
-      /* Button group for logged-out state */
-      .button-group-logged-out {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 1.5rem; /* Consistent gap */
-        margin-top: 3rem; /* Space above buttons */
-        flex-wrap: wrap;
-      }
+    .start-form label {
+      display: flex;
+      flex-direction: column;
+      color: var(--text-color);
+      font-size: 1.4rem;
+      /* Slightly larger for readability */
+      font-family: var(--RobotoFont, 'Roboto', sans-serif);
+      text-align: center;
+      padding: 10px;
+    }
+
+    .start-form select {
+      width: 200px;
+      /* Slightly wider, or consider flex-grow for responsiveness */
+      padding: 0.8rem 1.2rem;
+      /* Increased padding */
+      font-size: 1.4rem;
+      /* Increased font size */
+      font-family: var(--RobotoFont, 'Roboto', sans-serif);
+      border-radius: 0.5rem;
+      /* Softer radius */
+      border: 1px solid var(--feature-hover-bg);
+      /* Subtle border */
+      background-color: var(--bg-color);
+      /* Match background for seamless look */
+      color: var(--text-color);
+      margin-top: 0.5rem;
+      appearance: none;
+      /* Remove default system appearance */
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23${encodeURIComponent(getComputedStyle(document.documentElement).getPropertyValue('--text-color').trim().substring(1))}' width='18px' height='18px'%3E%3Cpath d='M7 10l5 5 5-5H7z'/%3E%3C/svg%3E");
+      /* Custom arrow */
+      background-repeat: no-repeat;
+      background-position: right 0.8rem center;
+      text-align: center;
+    }
+
+    :root.light-mode .start-form select {
+      /* Custom arrow for light mode */
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23${encodeURIComponent(getComputedStyle(document.documentElement).getPropertyValue('--text-color').trim().substring(1))}' width='18px' height='18px'%3E%3Cpath d='M7 10l5 5 5-5H7z'/%3E%3C/svg%3E");
+    }
 
 
-    </style>
-  </head>
-  <body>
-    <%- include('partials/header') %>
+    /* Button group (Start & Leaderboard) for logged-in state */
+    .start-form .button-group {
+      /* Target button group within the form */
+      display: flex;
+      gap: 2rem;
+      /* Consistent gap */
+      width: 100%;
+      /* Make button group take full width of its form column */
+      margin-top: 2rem;
+      /* Add some space above the buttons if form elements wrap */
+    }
+
+    .start-form .button-group .btn {
+      /* More specific selector */
+      font-family: "Nova Square", cursive;
+      font-size: 2rem;
+      padding: 2rem 0;
+      width: 300px;
+      text-align: center;
+      margin-bottom: 1.5rem;
+      text-decoration: none;
+      color: var(--text-light);
+      background: var(--primary-color);
+      border-radius: 50px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: all 0.3s ease;
+      border: none;
+      cursor: pointer;
+    }
+
+    /* Ensure submit button uses Nova Square from .btn if not an <a> tag */
+    .start-form .button-group button.btn {
+      font-family: "Nova Square", cursive;
+    }
+
+
+    /* Button group for logged-out state */
+    .button-group-logged-out {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1.5rem;
+      /* Consistent gap */
+      margin-top: 3rem;
+      /* Space above buttons */
+      flex-wrap: wrap;
+    }
+  </style>
+</head>
+
+<body>
+  <%- include('partials/header') %>
     <div class="quiz-home-main-container">
-      <div class="home-header-content"> <h1>Are You Ready?</h1>
+      <div class="home-header-content" style="<%= user ? 'display: none;' : '' %>">
+        <h1>Are You Ready?</h1>
         <p class="tagline">Challenge yourself with our knowledge quiz!</p>
       </div>
 
       <% if (user) { %>
-      <div class="start-quiz-form-container"> <form action="/quiz/start" method="POST" class="start-form">
-          <label for="numQuestions">
-            Number of Questions
-            <select name="numQuestions" id="numQuestions" required>
-              <option value="5">5</option>
-              <option value="10" selected>10</option>
-              <option value="15">15</option>
-              <option value="30">30</option>
-            </select>
-          </label>
+        <div class="home-header-content">
+          <h1 style="font-size: 50px;">Your quiz, your rules. <br>
+            <h1 style="font-size: 30px;">Pick a category and question count to get started!</h1>
+          </h1>
+        </div>
+        <div class="start-quiz-form-container">
+          <form action="/quiz/start" method="POST" class="start-form">
+            <label for="numQuestions" style="font-size: 20px;">
+              Number of Questions
+              <select name="numQuestions" id="numQuestions" required style="font-size: 17px;">
+                <option value="5">5</option>
+                <option value="10" selected>10</option>
+                <option value="15">15</option>
+                <option value="30">30</option>
+              </select>
+            </label>
 
-          <label for="category">
-            Category
-            <select name="category" id="category">
-              <option value="">Any Category</option> <% categories.forEach(cat => { %>
-                <option value="<%=cat.id%>"><%=cat.name%></option>
-              <% }) %>
-            </select>
-          </label>
+            <label for="category" style="font-size: 20px;">
+              Category
+              <select name="category" id="category" style="font-size: 17px;">
+                <option value="">Any Category</option>
+                <% categories.forEach(cat=> { %>
+                  <option value="<%=cat.id%>">
+                    <%=cat.name%>
+                  </option>
+                  <% }) %>
+              </select>
+            </label>
 
-          <div class="button-group">
-            <a href="/leaderboard" class="btn"> <i class="fas fa-trophy"></i> Leaderboard
+            <div class="button-group">
+              <button type="submit" class="btn">
+                <i class="fas fa-play-circle"></i> Start Quiz
+              </button>
+              <a href="/leaderboard" class="btn"> <i class="fas fa-trophy"></i> Leaderboard
+              </a>
+            </div>
+          </form>
+        </div>
+        <% } else { %>
+          <div class="button-group-logged-out">
+            <a href="/auth/login" class="btn login-btn">
+              <i class="fas fa-sign-in-alt"></i> Sign In
             </a>
-            <button type="submit" class="btn">
-              <i class="fas fa-play-circle"></i> Start Quiz
-            </button>
+            <a href="/leaderboard" class="btn">
+              <i class="fas fa-trophy"></i> Leaderboard
+            </a>
           </div>
-        </form>
-      </div>
-      <% } else { %>
-      <div class="button-group-logged-out">
-        <a href="/auth/login" class="btn login-btn">
-          <i class="fas fa-sign-in-alt"></i> Sign In to Start Quiz
-        </a>
-        <a href="/leaderboard" class="btn">
-          <i class="fas fa-trophy"></i> Leaderboard
-        </a>
-      </div>
-      <% } %>
+          <% } %>
     </div>
 
     <script src="/js/home.js"></script>
@@ -188,5 +238,6 @@
       // Call it on load and potentially if the theme changes via JS
       document.addEventListener('DOMContentLoaded', updateSelectArrows);
     </script>
-  </body>
+</body>
+
 </html>
