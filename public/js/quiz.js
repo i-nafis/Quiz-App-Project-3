@@ -1,3 +1,4 @@
+
 let currentQuestionIndex = 0;
 let score = 0;
 let userAnswers = {};
@@ -6,6 +7,11 @@ let timerInterval;
 let timeLeft = 15;
 const totalTime = 15; // Define the total time for reference
 const updateFrequency = 50; // Update every 50ms timer bar
+const correctSound = new Audio('../sounds/correct.mp3');
+const incorrectSound = new Audio('../sounds/incorrect.mp3');
+incorrectSound.volume = 0.5;
+correctSound.volume = 0.6;
+
 
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -13,6 +19,7 @@ document.addEventListener("DOMContentLoaded", () => {
       showQuestion(); // Start the quiz if authenticated
     
 });
+
 
 function showQuestion() {
   const question = quizData[currentQuestionIndex];
@@ -48,6 +55,7 @@ function showQuestion() {
   // Reset progress bar at the start of each question
   document.getElementById("progressBarFull").style.width = '0%';
 }
+
 
 function resetTimer() {
   clearInterval(countdown);
@@ -103,28 +111,23 @@ function decodeHTMLEntities(text) {
 
 questionElement.innerText = decodeHTMLEntities(currentQuestion.question);
 
-
 function handleAnswer(selectedLetter) {
   const correct = quizData[currentQuestionIndex].answer;
   const choices = document.querySelectorAll(".choice-text");
   const questionId = `q${currentQuestionIndex}`;
 
-  // Store the user's answer
   userAnswers[questionId] = selectedLetter;
-  
-  // Stop all timers
+
   clearInterval(countdown);
   clearInterval(timerInterval);
 
-  // Disable further clicking
   choices.forEach(choice => {
     choice.onclick = null;
   });
 
-  // Highlight selected and correct answers
   choices.forEach(choice => {
     const choiceLetter = choice.dataset.choice;
-  
+
     if (choiceLetter === correct) {
       choice.parentElement.classList.add("correct");
     }
@@ -139,31 +142,30 @@ function handleAnswer(selectedLetter) {
   if (selectedLetter === correct) {
     score++;
     document.getElementById("score").textContent = score;
-    // feedback.textContent = "✅ Correct!";
 
-    // 🎉 New Confetti
     confetti({
       particleCount: 100,
       spread: 70,
       origin: { y: 0.6 },
       colors: ['#0d7156', '#00b894', '#ffffff', '#c8f7c5']
     });
+
+    correctSound.play();
+  } else {
+    incorrectSound.play();
   }
 
-  // 🧼 Reset colors before showing next question
   setTimeout(() => {
     feedback.textContent = "";
-
-    // Remove .correct and .incorrect from the full choice container
     choices.forEach(choice => {
-      const container = choice.parentElement;
-      container.classList.remove("correct", "incorrect");
+      choice.parentElement.classList.remove("correct", "incorrect");
     });
 
     currentQuestionIndex++;
     showQuestion();
   }, 2000);
 }
+
 
 function triggerConfetti() {
   const confetti = document.getElementById("confetti");
@@ -210,28 +212,29 @@ function submitScoreAndRedirect(score) {
       const attemptId = data.attemptId;
       
       const feedback = getFeedbackMessage(score, quizData.length);
+const gameContainer = document.getElementById('game');
+gameContainer.innerHTML = `
+  <div class="results-popup">
+    <h2 class="results-title">Results are in!</h2>
+    <p class="score-summary">🎉 You got ${score} out of ${quizData.length} correct!</p>
+    <p class="feedback">${feedback}</p>
+    <div class="results-buttons">
+      ${attemptId ? `
+        <a href="/quiz/review/${attemptId}" class="btn review-btn">
+          <i class="fas fa-search"></i> Review Answers
+        </a>
+      ` : ''}
+      <a href="/quiz" class="btn play-btn">
+        <i class="fas fa-play-circle"></i> Play Again
+      </a>
+      <a href="/leaderboard" class="btn secondary-btn">
+        <i class="fas fa-trophy"></i> Leaderboard
+      </a>
+    </div>
+  </div>
+`;
 
-      const gameContainer = document.getElementById('game');
-      gameContainer.innerHTML = `
-        <div class="results-popup">
-          <h2>Results are in!</h2>
-          <p>🎉 You got ${score} out of ${quizData.length} correct!</p>
-          <p class="feedback">${feedback}</p>
-          <div class="action-buttons">
-            ${attemptId ? `
-              <a href="/quiz/review/${attemptId}" class="btn review-btn">
-                <i class="fas fa-search"></i> Review Answers
-              </a>
-            ` : ''}
-            <a href="/quiz" class="btn play-btn">
-              <i class="fas fa-play-circle"></i> Play Again
-            </a>
-            <a href="/leaderboard" class="btn secondary-btn">
-              <i class="fas fa-trophy"></i> Leaderboard
-            </a>
-          </div>
-        </div>
-      `;
+
     })
     .catch((err) => {
       console.error("❌ Error submitting score:", err);

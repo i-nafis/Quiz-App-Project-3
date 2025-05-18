@@ -224,6 +224,78 @@ select {
   transform: translateY(-0.2rem);
 }
 
+/* Results */
+.results-popup {
+  background-color: var(--feature-bg);
+  padding: 4rem;
+  border-radius: 2rem;
+  max-width: 60rem;
+  text-align: center;
+  margin: 0 auto; /* center horizontally */
+}
+
+/* Title */
+.results-title {
+  font-size: 4rem;
+  color: var(--primary-color);
+  margin-bottom: 2rem;
+}
+
+/* Score */
+.score-summary {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Feedback */
+.feedback {
+  font-size: 1.8rem;
+  margin-bottom: 3rem;
+  color: var(--text-color);
+}
+
+/* Buttons wrapper inside popup */
+.results-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+/* Individual buttons */
+.results-buttons button {
+  padding: 1rem 2rem;
+  font-size: 1.6rem;
+  border-radius: 1rem;
+  border: none;
+  background-color: var(--primary-color);
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.results-buttons button:hover {
+  background-color: var(--primary-dark);
+}
+
+.results-buttons a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem 1rem;
+  font-size: 2rem;
+  border-radius: 1rem;
+  text-decoration: none;
+  background-color: var(--primary-color);
+  color: white; /* THIS sets the text color */
+  transition: background-color 0.3s;
+}
+
+.results-buttons a:hover {
+  background-color: var(--primary-dark);
+}
+
+
 /* Features */
 .features {
   display: flex;
