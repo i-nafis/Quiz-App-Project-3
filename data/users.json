@@ -16,5 +16,17 @@
     "username": "Rahi",
     "password": "$2b$10$UPbu35brZZrMOhj//.bAqOj4c9g96VaSwF5gOYLYG608yBTxR6IQG",
     "email": ""
+  },
+  {
+    "_id": "682a8ca4eff4da076803ca86",
+    "username": "John",
+    "password": "$2b$10$7Ghyyt9MREmr0Cqxuoyx/e8JSRikhBwfP8qJ14Wkc3O0TwaI81Ky2",
+    "email": ""
+  },
+  {
+    "_id": "682a8cadeff4da076803ca87",
+    "username": "john",
+    "password": "$2b$10$4OaCpQ3zVF/fFrwE6M6/gudoGAwNrdQKAsHMAsxS6gd/Bp41eY8Fu",
+    "email": ""
   }
 ]
