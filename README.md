@@ -1,6 +1,8 @@
-# Quiz App 🧠
+# Quiz App 🧠 (Upgraded Version)
 
-An interactive quiz application built with Node.js, Express, and EJS. Users can sign up, log in, and take quizzes. Their progress is saved, and scores are displayed on a leaderboard.
+> **Note:** This is an upgraded version of our old Quiz App—it now integrates with a Trivia API and uses MongoDB for data storage.
+
+An interactive quiz application built with Node.js, Express, and EJS. Users can sign up, log in, and take quizzes. Their progress is saved in MongoDB, and scores are displayed on a real-time leaderboard.
 
 ---
 
@@ -8,35 +10,34 @@ An interactive quiz application built with Node.js, Express, and EJS. Users can 
 
 - 🔐 User Authentication (Sign Up / Login)
 - 🔑 Passwords securely hashed using bcrypt
-- 🧾 Dynamic Quiz Questions from JSON
-- 📊 Leaderboard to track high scores
+- 🎲 Dynamic Quiz Questions fetched from a Trivia API
+- 📊 Real-time Leaderboard powered by MongoDB
 - 🖼️ Clean UI with EJS templating
 - 🧩 Modular code structure with routes, controllers, and middleware
-- 🌓Dark/Light Mode
+- 🌓 Dark/Light Mode
 
 ### 🧠 Gameplay Enhancements
 
 - ⏱️ Countdown Timer per Question
-- ✅ Answer validation with visual feedback
-  (Correct = green | Incorrect = red )
-- 🎉 Confetti animation when user answers correctly 
-  (Uses Canvas Confetti with custom color palette)
-- 🌈 Glowing animation effect on correct answers
-- 🔁 Auto-next after answer selection
-- 📥 Ability to select number of quiz questions before starting
-
+- ✅ Answer validation with visual feedback (Correct = green | Incorrect = red)
+- 🎉 Confetti animation on correct answers (Canvas Confetti)
+- 🌈 Glowing animation effect for correct selections
+- 🔁 Auto-next question after selection
+- 📥 Question count selector before quiz start
 
 ---
 
+
 ## 📂 Project Structure
 ```plaintext
-bin/        # Executable scripts
-routes/     # Express route definitions
-controllers/ # Logic handling route requests
-middleware/ # Express middleware functions
-data/       # JSON data files
-views/      # EJS template files
-public/     # Static files (CSS, JS, images)
+bin/         # Executable scripts
+routes/      # Express route definitions
+controllers/ # Business logic for routes
+middleware/  # Express middleware functions
+models/      # Mongoose schemas & models
+data/        # Static JSON files (fallback questions)
+views/       # EJS template files
+public/      # Static assets (CSS, JS, images)
 ```
 
 ---
@@ -45,7 +46,7 @@ public/     # Static files (CSS, JS, images)
 
 **Clone the repository**
    ```bash
-   git clone https://github.com/i-nafis/CSCI355-Project-2
+   git clone https://github.com/jess-icaww/Quiz-App-Project-3.git
 ```
 **Install dependencies**  
    ```bash
@@ -53,7 +54,7 @@ public/     # Static files (CSS, JS, images)
 ```
 **Run the application**
 ```bash
-  node bin/www
+node start
 ```
 **Open in browser**
 ```bash
@@ -80,10 +81,3 @@ http://localhost:3000
 This project is for academic purposes only. All rights reserved by the team.
 
 ---
-
-## 💡 Future Improvements
-
-- Add admin dashboard to manage questions  
-- Quiz history  
-- Add categories and difficulty levels for quizzes  
-- Connect to a real database (MongoDB)
