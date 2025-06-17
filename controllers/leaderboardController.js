@@ -1,75 +1,68 @@
-const fs = require('fs');
-const path = require('path');
+// controllers/leaderboardController.js
+const Score = require('../models/Score');
+const User  = require('../models/User');
 
-const leaderboardFile = path.join(__dirname, '../data/leaderboard.json');
-
-// Read the leaderboard JSON data
-const readLeaderboard = () => {
+/**
+ * Add or update a user’s score for a given quiz mode.
+ * @param {String} userId    – Mongoose ObjectId string of the user
+ * @param {Number} scoreValue – numeric score to record
+ * @param {Number} mode       – number of questions in that quiz
+ */
+exports.addScore = async (userId, scoreValue, mode) => {
   try {
-    return JSON.parse(fs.readFileSync(leaderboardFile, 'utf8'));
+    // Upsert: if an entry exists for this user+mode, keep the higher score
+    const existing = await Score.findOne({ user: userId, mode });
+
+    if (existing) {
+      if (scoreValue > existing.score) {
+        existing.score      = scoreValue;
+        existing.recordedAt = new Date();
+        await existing.save();
+      }
+      // else: do nothing if new score is not higher
+    } else {
+      await Score.create({
+        user: userId,
+        score: scoreValue,
+        mode
+      });
+    }
   } catch (err) {
-    return [];
+    console.error('❌ Error in addScore:', err);
   }
 };
 
-// Write to leaderboard JSON
-const writeLeaderboard = (data) => {
-  fs.writeFileSync(leaderboardFile, JSON.stringify(data, null, 2));
-};
 
 /**
  * GET /leaderboard
- * Renders the leaderboard page.
+ * Renders the leaderboard page, grouped by quiz length (mode).
  */
-exports.getLeaderboard = (req, res) => {
-  const leaderboard = readLeaderboard();
+exports.getLeaderboard = async (req, res, next) => {
+  try {
+    // Fetch all scores, populate username
+    const allScores = await Score
+      .find({})
+      .populate('user', 'username')
+      .sort({ score: -1 })
+      .lean();
 
-  // group by which mode user chose
-  const grouped = {};
+    // Group by `mode` (number of questions)
+    const groupedEntries = allScores.reduce((acc, entry) => {
+      const key = entry.mode;
+      if (!acc[key]) acc[key] = [];
+      acc[key].push({
+        username: entry.user.username,
+        score:    entry.score,
+        date:     entry.recordedAt
+      });
+      return acc;
+    }, {});
 
-  leaderboard.forEach(entry => {
-    const key = entry.totalQuestions;
-    if (!grouped[key]) {
-      grouped[key] = [];
-    }
-    grouped[key].push(entry);
-  });
-
-  // sort groups in descending order
-  Object.keys(grouped).forEach(key => {
-    grouped[key].sort((a, b) => b.score - a.score);
-  });
-
-  res.render('leaderboard', {
-    title: 'Leaderboard',
-    groupedEntries: grouped
-  });
-};
-
-/**
- * POST /quiz/submit-json
- * Called from frontend to save score.
- */
-exports.addScore = (username, score, mode) => {
-  let leaderboard = readLeaderboard();
-  console.log("🏁 addScore() called for:", username, score, mode);
-  console.log("📋 Current leaderboard before:", leaderboard);
-
-  const existingIndex = leaderboard.findIndex(entry => entry.username === username && entry.mode == mode);
-
-  if (existingIndex >= 0) {
-    if (score > leaderboard[existingIndex].score) {
-      console.log(`🔁 Updating ${username}'s score from ${leaderboard[existingIndex].score} to ${score}`);
-      leaderboard[existingIndex].score = score;
-      leaderboard[existingIndex].date = new Date().toISOString();
-    } else {
-      console.log(`📉 Not updating — ${score} is not higher than ${leaderboard[existingIndex].score}`);
-    }
-  } else {
-    console.log(`🆕 Adding new user ${username} with score ${score}`);
-    leaderboard.push({ username, score, date: new Date().toISOString() });
+    res.render('leaderboard', {
+      title: 'Leaderboard',
+      groupedEntries
+    });
+  } catch (err) {
+    next(err);
   }
-
-  writeLeaderboard(leaderboard);
-  console.log("✅ Leaderboard updated and written to file.");
 };

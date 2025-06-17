@@ -1,30 +1,18 @@
 const mongoose = require('mongoose');
+const { Schema } = mongoose;
 
-// Define schema for quiz question
-const quizSchema = new mongoose.Schema({
-    question: {
-        type: String,
-        required: true,
-    },
-    correct_answer: {
-        type: String,
-        required: true,
-    },
-    incorrect_answers: {
-        type: [String], // Array of incorrect answers
-        required: true,
-    },
-    category: {
-        type: String,
-        required: true,
-    },
-    difficulty: {
-        type: String,
-        required: true,
-    }
+const questionSchema = new Schema({
+  text:     { type: String,  required: true },
+  choices:  { type: [String], required: true },
+  correct:  { type: String,  required: true }
+}, { _id: true });
+
+const quizSchema = new Schema({
+  title:      { type: String, required: true },
+  category:   { type: String, required: true },
+  questions:  { type: [questionSchema], required: true },
+  createdBy:  { type: Schema.Types.ObjectId, ref: 'User' },
+  createdAt:  { type: Date, default: Date.now }
 });
 
-// Create Quiz model from the schema
-const Quiz = mongoose.model('Quiz', quizSchema);
-
-module.exports = Quiz;
+module.exports = mongoose.model('Quiz', quizSchema);
