@@ -1,25 +1,38 @@
 // routes/quiz.js
 // -------------------------------------
-// Quiz routes only: pick #/category, fetch questions, submit, and review
+// Quiz routes: pick #/category, fetch questions, submit, and review
 // -------------------------------------
-const express        = require('express');
-const router         = express.Router();
-const quizController = require('../controllers/quizController');
+const express = require('express');
+const router = express.Router();
+const authMiddleware = require('../middleware/authMiddleware');
+const {
+  showQuizForm,
+  showQuiz,
+  processQuiz,
+  submitScore,
+  reviewQuiz
+} = require('../controllers/quizController');
 
-// 1) GET  /quiz           → show form (number + category)
-router.get('/', quizController.showQuizForm);
+// ——— Async wrapper so errors go to your error handler ———
+const asyncHandler = fn => (req, res, next) =>
+  Promise.resolve(fn(req, res, next)).catch(next);
 
-// 2) POST /quiz/start     → fetch from OpenTDB & render quiz
-router.post('/start', quizController.showQuiz);
+// ——— Protect every quiz route ———
+router.use(authMiddleware.requireAuth);
 
-// 3) POST /quiz/submit    → grade, save attempt & render results
-router.post('/submit', quizController.processQuiz);
+// 1) GET  /quiz
+router.get('/', asyncHandler(showQuizForm));
 
-// 4) POST /quiz/submit-json → grade/save via JSON (if you use fetch)
-router.post('/submit-json', quizController.submitScore);
+// 2) POST /quiz/start
+router.post('/start', asyncHandler(showQuiz));
 
-// 5) GET  /quiz/review/:attemptId → review a past attempt
-router.get('/review/:attemptId', quizController.reviewQuiz);
+// 3) POST /quiz/submit
+router.post('/submit', asyncHandler(processQuiz));
 
+// 4) POST /quiz/submit-json
+router.post('/submit-json', asyncHandler(submitScore));
+
+// 5) GET  /quiz/review/:attemptId
+router.get('/review/:attemptId', asyncHandler(reviewQuiz));
 
 module.exports = router;

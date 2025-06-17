@@ -78,7 +78,7 @@
       <% attempts.forEach(attempt => { %>
         <tr>
           <td><%= new Date(attempt.submittedAt).toLocaleString() %></td>
-          <td><%= attempt.score %>/10</td>
+          <td><%= attempt.score %> / <%= attempt.questions.length %></td>
         </tr>
       <% }) %>
     </tbody>

@@ -43,5 +43,45 @@
     "username": "john",
     "score": 0,
     "date": "2025-05-19T01:43:26.154Z"
+  },
+  {
+    "username": "test",
+    "score": 0,
+    "date": "2025-05-19T02:18:42.605Z"
+  },
+  {
+    "username": "test",
+    "score": 0,
+    "date": "2025-05-19T04:22:28.137Z"
+  },
+  {
+    "username": "test",
+    "score": 2,
+    "date": "2025-05-19T04:25:58.196Z"
+  },
+  {
+    "username": "test",
+    "score": 0,
+    "date": "2025-05-19T04:26:28.550Z"
+  },
+  {
+    "username": "test",
+    "score": 1,
+    "date": "2025-05-19T04:34:19.843Z"
+  },
+  {
+    "username": "test",
+    "score": 1,
+    "date": "2025-05-20T21:08:28.549Z"
+  },
+  {
+    "username": "test",
+    "score": 1,
+    "date": "2025-06-17T16:26:11.019Z"
+  },
+  {
+    "username": "test",
+    "score": 1,
+    "date": "2025-06-17T17:11:55.685Z"
   }
 ]
